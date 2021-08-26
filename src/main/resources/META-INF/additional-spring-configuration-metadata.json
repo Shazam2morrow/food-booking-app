@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "storage.upload-directory",
+      "type": "java.lang.String",
+      "description": "File system directory where uploaded files will be stored."
+    }
+  ]
+}
