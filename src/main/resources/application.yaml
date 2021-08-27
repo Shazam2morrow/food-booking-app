@@ -23,6 +23,7 @@ spring:
           time_zone: UTC
         dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
   main:
+    banner-mode: off
     allow-bean-definition-overriding: true
   jackson:
     mapper:
@@ -50,4 +51,7 @@ logging:
     net:
       sf:
         jmimemagic: error
+    com:
+      zaxxer:
+        hikari: error
 storage.upload-directory: /var/tmp/uploads
