@@ -5,6 +5,7 @@ import food.booking.app.shared.model.SliceMetadata;
 import food.booking.app.shared.model.SlicedModel;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -117,11 +118,17 @@ public class RestaurantPreviewModelAssembler extends RepresentationModelAssemble
      * @return href
      */
     private String buildHref(UriComponentsBuilder builder, Pageable page) {
-        return builder
+        UriComponentsBuilder queryParams = builder
                 .queryParam("page", page.getPageNumber())
-                .queryParam("size", page.getPageSize())
-                .encode()
-                .toUriString();
+                .queryParam("size", page.getPageSize());
+        Sort sort = page.getSort();
+        if (Objects.nonNull(sort)) {
+            for (Sort.Order order : sort) {
+                String value = order.getProperty() + "," + order.getDirection().name().toLowerCase();
+                queryParams = queryParams.queryParam("sort", value);
+            }
+        }
+        return builder.encode().toUriString();
     }
 
     /**

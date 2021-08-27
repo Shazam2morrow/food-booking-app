@@ -6,8 +6,10 @@ import food.booking.app.business.domain.Restaurant;
 import food.booking.app.shared.domain.DailySchedule;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.Validate;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,7 +65,8 @@ class RestaurantSlugPersistanceAdapter implements
 
     @Override
     public Slice<Restaurant> loadSlice(Pageable page) {
-        return restaurantRepository.findAll(requireValidPage(page)).map(restaurantPersistanceMapper::mapToDomainEntity);
+        return restaurantRepository.findAll(getPageOrDefault(page))
+                .map(restaurantPersistanceMapper::mapToDomainEntity);
     }
 
     @Override
@@ -204,6 +207,19 @@ class RestaurantSlugPersistanceAdapter implements
      */
     private Pageable requireValidPage(Pageable page) {
         return Validate.notNull(page, "page can not be null");
+    }
+
+    /**
+     * Get page or default one
+     * <p>
+     * Default page sorts by 'rating' property!
+     *
+     * @param page page
+     * @return page containing sorting or page with default one
+     */
+    private Pageable getPageOrDefault(Pageable page) {
+        Sort sort = requireValidPage(page).getSortOr(Sort.by(Sort.Direction.DESC, "rating"));
+        return PageRequest.of(page.getPageNumber(), page.getPageSize(), sort);
     }
 
 }
