@@ -10,7 +10,7 @@ import food.booking.app.business.app.port.in.restaurant.UpdateRestaurantDetailsU
 import food.booking.app.business.domain.Restaurant;
 import food.booking.app.shared.PatchApplier;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -40,18 +40,17 @@ class UpdateRestaurantDetailsController extends PatchApplier<Restaurant, UpdateR
      *
      * @param restaurantSlug restaurant slug
      * @param jsonPatch      json patch
-     * @return no content
      * @throws JsonPatchException      if patch can not be applied
      * @throws JsonProcessingException if json could not be processed
      */
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PatchMapping(path = "/{restaurantSlug}", consumes = {PATCH_TYPE})
-    ResponseEntity<Void> updateRestaurantDetails(
+    void updateRestaurantDetails(
             @PathVariable String restaurantSlug,
             @RequestBody JsonPatch jsonPatch) throws JsonPatchException, JsonProcessingException {
         log.debug("REST request to update restaurant details: {}, {}", restaurantSlug, jsonPatch);
         Restaurant details = loadRestaurantDetailsUseCase.loadDetailsBySlug(restaurantSlug);
         updateRestaurantDetailsUseCase.update(applyPatch(jsonPatch, details));
-        return ResponseEntity.noContent().build();
     }
 
     @Override

@@ -3,11 +3,8 @@ package food.booking.app.business.adapter.in.web.menu;
 import food.booking.app.business.app.port.in.menu.DeleteMenuUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Delete menu controller
@@ -26,13 +23,12 @@ class DeleteMenuController {
      * Delete menu
      *
      * @param menuSlug menu slug
-     * @return no content
      */
     @DeleteMapping(path = "/{menuSlug}")
-    ResponseEntity<Void> deleteMenu(@PathVariable String menuSlug) {
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    void deleteMenu(@PathVariable String menuSlug) {
         log.debug("Trying to delete menu: {}", menuSlug);
         deleteMenuUseCase.deleteBySlug(menuSlug);
-        return ResponseEntity.noContent().build();
     }
 
 }

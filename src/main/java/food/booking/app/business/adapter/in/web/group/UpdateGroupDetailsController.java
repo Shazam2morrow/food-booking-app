@@ -10,7 +10,7 @@ import food.booking.app.business.app.port.in.group.UpdateGroupDetailsUseCase;
 import food.booking.app.business.domain.Group;
 import food.booking.app.shared.PatchApplier;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -38,18 +38,17 @@ class UpdateGroupDetailsController extends PatchApplier<Group, UpdateGroupDetail
     /**
      * Update group details
      *
-     * @return no content
      * @throws JsonPatchException      if patch can not be applied
      * @throws JsonProcessingException if json could not be processed
      */
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PatchMapping(path = "/{groupSlug}", consumes = {PATCH_TYPE})
-    ResponseEntity<Void> updateGroupDetails(
+    void updateGroupDetails(
             @PathVariable String groupSlug,
             @RequestBody JsonPatch jsonPatch) throws JsonPatchException, JsonProcessingException {
         log.debug("REST request to update group details: {}, {}", groupSlug, jsonPatch);
         Group group = loadGroupDetailsUseCase.loadDetailsBySlug(groupSlug);
         updateGroupDetailsUseCase.update(applyPatch(jsonPatch, group));
-        return ResponseEntity.noContent().build();
     }
 
     @Override
