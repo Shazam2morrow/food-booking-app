@@ -2,23 +2,15 @@ package food.booking.app.business.adapter.out.persistance;
 
 import food.booking.app.shared.domain.LocationMapper;
 import org.locationtech.jts.geom.GeometryFactory;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Persistance adapter configuration
  *
  * @author shazam2morrow
  */
-@EntityScan
 @Configuration
-@EnableJpaAuditing
-@EnableJpaRepositories
-@EnableTransactionManagement
 class RestaurantPersistanceAdapterConfig {
 
     @Bean
