@@ -6,19 +6,19 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * Persistance configuration
+ * persistence configuration
  *
  * @author shazam2morrow
  */
 @EnableJpaAuditing
 @EnableTransactionManagement
 @EntityScan(basePackages = {
-        "food.booking.app.storage.adapter.out.persistance",
-        "food.booking.app.business.adapter.out.persistance"
+        "food.booking.app.storage.adapter.out.persistence",
+        "food.booking.app.business.adapter.out.persistence"
 })
 @EnableJpaRepositories(basePackages = {
-        "food.booking.app.storage.adapter.out.persistance",
-        "food.booking.app.business.adapter.out.persistance"
+        "food.booking.app.storage.adapter.out.persistence",
+        "food.booking.app.business.adapter.out.persistence"
 })
 class PersistenceConfig {
 }

@@ -1,6 +1,6 @@
 package food.booking.app.storage.app.port.out;
 
-import food.booking.app.storage.adapter.out.persistance.StorageType;
+import food.booking.app.storage.adapter.out.persistence.StorageType;
 
 import java.net.URI;
 

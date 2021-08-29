@@ -1,7 +1,7 @@
 package food.booking.app.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import food.booking.app.business.adapter.out.persistance.RestaurantType;
+import food.booking.app.business.adapter.out.persistence.RestaurantType;
 import food.booking.app.shared.domain.DailySchedule;
 import food.booking.app.shared.domain.Location;
 import lombok.AllArgsConstructor;

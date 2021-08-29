@@ -1,6 +1,6 @@
 package food.booking.app.business.app.port.out.restaurant;
 
-import food.booking.app.business.adapter.out.persistance.RestaurantType;
+import food.booking.app.business.adapter.out.persistence.RestaurantType;
 import food.booking.app.business.domain.Category;
 import food.booking.app.shared.domain.DailySchedule;
 import food.booking.app.shared.domain.Location;

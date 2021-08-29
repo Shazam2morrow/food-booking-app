@@ -1,6 +1,6 @@
 package food.booking.app.shared.domain;
 
-import food.booking.app.business.adapter.out.persistance.WeekDay;
+import food.booking.app.business.adapter.out.persistence.WeekDay;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

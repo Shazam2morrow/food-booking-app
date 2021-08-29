@@ -1,7 +1,7 @@
 package food.booking.app.storage.app;
 
 import food.booking.app.shared.size.SlugSize;
-import food.booking.app.storage.adapter.out.persistance.StorageType;
+import food.booking.app.storage.adapter.out.persistence.StorageType;
 import food.booking.app.storage.app.port.in.*;
 import food.booking.app.storage.app.port.in.exception.InvalidPathException;
 import food.booking.app.storage.app.port.in.exception.StorageException;
