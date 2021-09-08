@@ -1,7 +1,7 @@
 package food.booking.app.business.app;
 
 import food.booking.app.business.app.port.out.restaurant.*;
-import food.booking.app.storage.app.FileUriResolver;
+import food.booking.app.storage.app.FileUrlResolver;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,10 +29,10 @@ class RestaurantServiceConfig {
     }
 
     @Bean
-    RestaurantServiceMapper restaurantAppMapper(FileUriResolver fileUriResolver,
-                                                CheckRestaurantSlugPort checkRestaurantSlugPort,
-                                                RandomStringGenerator randomStringGenerator) {
-        return new RestaurantServiceMapper(fileUriResolver, checkRestaurantSlugPort, randomStringGenerator);
+    RestaurantServiceMapper restaurantServiceMapper(FileUrlResolver fileUrlResolver,
+                                                    RandomStringGenerator randomStringGenerator,
+                                                    CheckRestaurantSlugPort checkRestaurantSlugPort) {
+        return new RestaurantServiceMapper(checkRestaurantSlugPort, fileUrlResolver, randomStringGenerator);
     }
 
 }

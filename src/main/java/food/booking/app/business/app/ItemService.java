@@ -2,6 +2,7 @@ package food.booking.app.business.app;
 
 import food.booking.app.business.app.port.in.group.LoadGroupItemSliceUseCase;
 import food.booking.app.business.app.port.in.item.*;
+import food.booking.app.business.app.port.in.item.exception.ItemServiceException;
 import food.booking.app.business.app.port.out.group.LoadGroupItemSlicePort;
 import food.booking.app.business.app.port.out.item.*;
 import food.booking.app.business.domain.Item;
@@ -39,16 +40,24 @@ class ItemService implements CreateItemUseCase,
     @Transactional
     public Item create(CreateItemCommand command) {
         log.debug("Trying to create item: {}", command);
-        CreateItem createItem = itemServiceMapper.mapToCreateMenuItem(requireValid(command));
-        return createItemPort.create(createItem);
+        try {
+            CreateItem createItem = itemServiceMapper.mapToCreateMenuItem(requireValid(command));
+            return createItemPort.create(createItem);
+        } catch (Exception ex) {
+            throw new ItemServiceException("Failed to create item!", ex);
+        }
     }
 
     @Override
     @Transactional
     public void update(UpdateItemDetailsCommand command) {
         log.debug("Trying to update item details: {}", command);
-        UpdateItemDetails details = itemServiceMapper.mapToUpdateItemDetails(requireValid(command));
-        updateItemDetailsPort.update(details);
+        try {
+            UpdateItemDetails details = itemServiceMapper.mapToUpdateItemDetails(requireValid(command));
+            updateItemDetailsPort.update(details);
+        } catch (Exception ex) {
+            throw new ItemServiceException("Failed to update item details!", ex);
+        }
     }
 
     @Override
@@ -56,19 +65,10 @@ class ItemService implements CreateItemUseCase,
     public void deleteBySlug(String itemSlug) {
         log.debug("Trying to delete item: {}", itemSlug);
         Item item = loadDetailsBySlug(itemSlug);
-        item.setActive(Boolean.FALSE);
-        var command = new UpdateItemDetailsCommand(
-                item.getSlug(),
-                item.getTitle(),
-                item.getActive(),
-                item.getPrice(),
-                item.getCalories(),
-                item.getSortOrder(),
-                item.getCookingTime(),
-                item.getBannerUrl(),
-                item.getDescription()
-        );
-        update(command);
+        if (item.isActive()) {
+            item.setActive(Boolean.FALSE);
+            update(itemServiceMapper.mapToUpdateItemDetailsCommand(item));
+        }
     }
 
     @Override

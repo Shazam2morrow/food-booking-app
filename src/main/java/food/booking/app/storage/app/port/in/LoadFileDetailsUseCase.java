@@ -1,5 +1,6 @@
 package food.booking.app.storage.app.port.in;
 
+import food.booking.app.storage.app.port.in.exception.FileNotFoundException;
 import food.booking.app.storage.domain.File;
 
 /**
@@ -14,6 +15,7 @@ public interface LoadFileDetailsUseCase {
      *
      * @param fileSlug file slug
      * @return uploaded file DTO
+     * @throws FileNotFoundException if file was not found
      */
     File loadBySlug(String fileSlug);
 

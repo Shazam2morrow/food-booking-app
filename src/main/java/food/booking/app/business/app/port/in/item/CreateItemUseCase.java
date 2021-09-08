@@ -2,6 +2,8 @@ package food.booking.app.business.app.port.in.item;
 
 import food.booking.app.business.domain.Item;
 
+import javax.validation.Valid;
+
 /**
  * Create item use case
  *
@@ -15,6 +17,6 @@ public interface CreateItemUseCase {
      * @param command create item command
      * @return item
      */
-    Item create(CreateItemCommand command);
+    Item create(@Valid CreateItemCommand command);
 
 }

@@ -9,6 +9,7 @@ import food.booking.app.business.app.port.in.item.LoadItemDetailsUseCase;
 import food.booking.app.business.app.port.in.item.UpdateItemDetailsUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * Item web adapter configuration
@@ -33,8 +34,13 @@ class ItemWebAdapterConfig {
     @Bean
     UpdateItemDetailsController updateItemDetailsController(ObjectMapper objectMapper,
                                                             LoadItemDetailsUseCase loadItemDetailsUseCase,
-                                                            UpdateItemDetailsUseCase updateItemDetailsUseCase) {
-        return new UpdateItemDetailsController(objectMapper, loadItemDetailsUseCase, updateItemDetailsUseCase);
+                                                            UpdateItemDetailsUseCase updateItemDetailsUseCase,
+                                                            LocalValidatorFactoryBean localValidatorFactoryBean) {
+        return new UpdateItemDetailsController(
+                objectMapper,
+                loadItemDetailsUseCase,
+                updateItemDetailsUseCase,
+                localValidatorFactoryBean);
     }
 
     @Bean

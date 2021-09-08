@@ -1,8 +1,8 @@
 package food.booking.app.business.adapter.in.web.restaurant;
 
 import food.booking.app.business.domain.Restaurant;
-import food.booking.app.shared.model.SliceMetadata;
-import food.booking.app.shared.model.SlicedModel;
+import food.booking.app.shared.web.model.SliceMetadata;
+import food.booking.app.shared.web.model.SlicedModel;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;

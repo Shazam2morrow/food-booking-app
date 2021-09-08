@@ -8,9 +8,10 @@ import food.booking.app.business.app.port.in.restaurant.LoadRestaurantDetailsUse
 import food.booking.app.business.app.port.in.restaurant.UpdateRestaurantDetailsCommand;
 import food.booking.app.business.app.port.in.restaurant.UpdateRestaurantDetailsUseCase;
 import food.booking.app.business.domain.Restaurant;
-import food.booking.app.shared.PatchApplier;
+import food.booking.app.shared.web.PatchApplier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -28,9 +29,10 @@ class UpdateRestaurantDetailsController extends PatchApplier<Restaurant, UpdateR
     private final UpdateRestaurantDetailsUseCase updateRestaurantDetailsUseCase;
 
     UpdateRestaurantDetailsController(ObjectMapper objectMapper,
+                                      LocalValidatorFactoryBean localValidatorFactoryBean,
                                       LoadRestaurantDetailsUseCase loadRestaurantDetailsUseCase,
                                       UpdateRestaurantDetailsUseCase updateRestaurantDetailsUseCase) {
-        super(objectMapper);
+        super(localValidatorFactoryBean, objectMapper);
         this.loadRestaurantDetailsUseCase = loadRestaurantDetailsUseCase;
         this.updateRestaurantDetailsUseCase = updateRestaurantDetailsUseCase;
     }

@@ -1,5 +1,7 @@
 package food.booking.app.business.app.port.in.item;
 
+import javax.validation.Valid;
+
 /**
  * Update item details use case
  *
@@ -12,6 +14,6 @@ public interface UpdateItemDetailsUseCase {
      *
      * @param command update item details command
      */
-    void update(UpdateItemDetailsCommand command);
+    void update(@Valid UpdateItemDetailsCommand command);
 
 }

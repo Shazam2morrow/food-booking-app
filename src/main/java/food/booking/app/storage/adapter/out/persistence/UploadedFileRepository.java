@@ -20,9 +20,9 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 interface UploadedFileRepository extends JpaRepository<UploadedFileJpaEntity, Long> {
 
-    boolean existsByUrl(URI url);
-
     boolean existsBySlug(String slug);
+
+    boolean existsByUrlAndDeletedFalse(URI url);
 
     Optional<UploadedFileJpaEntity> findBySlug(String slug);
 

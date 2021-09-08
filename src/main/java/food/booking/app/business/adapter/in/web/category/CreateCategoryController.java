@@ -2,7 +2,6 @@ package food.booking.app.business.adapter.in.web.category;
 
 import food.booking.app.business.app.port.in.category.CreateCategoryCommand;
 import food.booking.app.business.app.port.in.category.CreateCategoryUseCase;
-import food.booking.app.business.domain.Category;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.MediaTypes;
@@ -36,14 +35,14 @@ class CreateCategoryController {
     /**
      * Create category
      *
-     * @param input create category model
-     * @return category model
+     * @param input category
+     * @return response entity with category model
      */
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaTypes.HAL_JSON_VALUE})
-    ResponseEntity<CategoryModel> createCategory(@Valid @RequestBody CreateCategoryModel input) {
+    ResponseEntity<CategoryModel> createCategory(@Valid @RequestBody Category input) {
         log.debug("REST request to create category: {}", input);
         CreateCategoryCommand command = categoryWebMapper.mapToCommand(input);
-        Category category = createCategoryUseCase.create(command);
+        var category = createCategoryUseCase.create(command);
         CategoryModel model = categoryModelAssembler.toModel(category);
         return model.getLink("self")
                 .map(self -> ResponseEntity.created(self.toUri()).body(model))

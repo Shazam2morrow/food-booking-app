@@ -1,10 +1,11 @@
 package food.booking.app.business.adapter.out.persistence;
 
+import food.booking.app.business.app.port.in.restaurant.exception.RestaurantNotFoundException;
+import food.booking.app.business.domain.Restaurant;
 import food.booking.app.shared.domain.DailySchedule;
 import food.booking.app.shared.domain.Time;
+import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -14,11 +15,22 @@ import java.util.stream.Collectors;
  *
  * @author shazam2morrow
  */
+@RequiredArgsConstructor
 class RestaurantSchedulePersistenceMapper {
 
-    RestaurantScheduleJpaEntity mapToJpaEntity(DailySchedule dailySchedule) {
+    private final RestaurantPersistenceResolver restaurantPersistenceResolver;
+
+    /**
+     * Map to restaurant schedule entity
+     *
+     * @param dailySchedule daily schedule
+     * @param restaurant    restaurant
+     * @return restaurant schedule entity
+     * @throws RestaurantNotFoundException if restaurant was not found
+     */
+    RestaurantScheduleJpaEntity mapToJpaEntity(DailySchedule dailySchedule, Restaurant restaurant) {
         return new RestaurantScheduleJpaEntity(
-                null,
+                restaurantPersistenceResolver.resolve(restaurant),
                 dailySchedule.getStartWeekDay(),
                 dailySchedule.getEndWeekDay(),
                 dailySchedule.getStartAt().getHour(),
@@ -27,36 +39,15 @@ class RestaurantSchedulePersistenceMapper {
                 dailySchedule.getEndAt().getMinute());
     }
 
-    RestaurantScheduleJpaEntity mapToJpaEntity(DailySchedule dailySchedule, RestaurantJpaEntity restaurant) {
-        return new RestaurantScheduleJpaEntity(
-                restaurant,
-                dailySchedule.getStartWeekDay(),
-                dailySchedule.getEndWeekDay(),
-                dailySchedule.getStartAt().getHour(),
-                dailySchedule.getStartAt().getMinute(),
-                dailySchedule.getEndAt().getHour(),
-                dailySchedule.getEndAt().getMinute());
-    }
-
-    DailySchedule mapToDomainEntity(RestaurantScheduleJpaEntity entity) {
-        return new DailySchedule(
-                entity.getStartWeekDay(),
-                new Time(entity.getStartAtHour(), entity.getStartAtMinute()),
-                entity.getEndWeekDay(),
-                new Time(entity.getEndAtHour(), entity.getEndAtMinute()));
-    }
-
-    List<RestaurantScheduleJpaEntity> mapToJpaEntities(Collection<DailySchedule> dailySchedules) {
-        if (Objects.isNull(dailySchedules)) {
-            return new ArrayList<>();
-        }
-        return dailySchedules.stream()
-                .map(this::mapToJpaEntity)
-                .sorted(RestaurantScheduleJpaEntity.getComparator())
-                .collect(Collectors.toList());
-    }
-
-    List<RestaurantScheduleJpaEntity> mapToJpaEntities(List<DailySchedule> dailySchedules, RestaurantJpaEntity restaurant) {
+    /**
+     * Map to restaurant schedule entities
+     *
+     * @param dailySchedules daily schedules
+     * @param restaurant     restaurant
+     * @return restaurant schedule entitities
+     * @throws RestaurantNotFoundException if restaurant was not found
+     */
+    List<RestaurantScheduleJpaEntity> mapToJpaEntities(List<DailySchedule> dailySchedules, Restaurant restaurant) {
         return Objects.isNull(dailySchedules)
                 ? null : dailySchedules.stream()
                 .map(dailySchedule -> mapToJpaEntity(dailySchedule, restaurant))
@@ -64,11 +55,18 @@ class RestaurantSchedulePersistenceMapper {
                 .collect(Collectors.toList());
     }
 
-    List<DailySchedule> mapToDomainEntities(Collection<RestaurantScheduleJpaEntity> entities) {
-        if (Objects.isNull(entities)) {
-            return new ArrayList<>();
-        }
-        return entities.stream().map(this::mapToDomainEntity).collect(Collectors.toList());
+    /**
+     * Map to daily schedule
+     *
+     * @param entity entity
+     * @return daily schedule
+     */
+    DailySchedule mapToDomainEntity(RestaurantScheduleJpaEntity entity) {
+        return new DailySchedule(
+                entity.getStartWeekDay(),
+                new Time(entity.getStartAtHour(), entity.getStartAtMinute()),
+                entity.getEndWeekDay(),
+                new Time(entity.getEndAtHour(), entity.getEndAtMinute()));
     }
 
 }

@@ -13,7 +13,7 @@ public interface CreateRestaurantPort {
      * Create restaurant
      *
      * @param createRestaurant create restaurant
-     * @return restaurant
+     * @return created restaurant
      */
     Restaurant create(CreateRestaurant createRestaurant);
 

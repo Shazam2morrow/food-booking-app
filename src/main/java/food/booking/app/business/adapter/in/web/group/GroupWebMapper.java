@@ -15,8 +15,8 @@ class GroupWebMapper {
      * @param model create group model
      * @return create group command
      */
-    CreateGroupCommand mapToCommand(CreateGroupModel model) {
-        return new CreateGroupCommand(model.menu(), model.title(), model.sortOrder(), model.iconUrl());
+    CreateGroupCommand mapToCommand(Group model) {
+        return new CreateGroupCommand(model.title(), model.iconUrl(), model.menu(), model.sortOrder());
     }
 
 }

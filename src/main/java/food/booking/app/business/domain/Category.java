@@ -1,6 +1,7 @@
 package food.booking.app.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import food.booking.app.shared.Slugable;
 import lombok.Data;
 
 import java.net.URI;
@@ -13,7 +14,7 @@ import java.time.Instant;
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Category {
+public class Category implements Slugable<String> {
 
     private URI iconUrl;
     private String slug;

@@ -4,7 +4,6 @@ import food.booking.app.business.adapter.in.web.restaurant.RestaurantPreviewMode
 import food.booking.app.business.adapter.in.web.restaurant.RestaurantPreviewModelAssembler;
 import food.booking.app.business.app.port.in.menu.CreateMenuCommand;
 import food.booking.app.business.app.port.in.menu.CreateMenuUseCase;
-import food.booking.app.business.domain.Menu;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Link;
@@ -48,7 +47,7 @@ class CreateMenuController {
      * @return menu model
      */
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaTypes.HAL_JSON_VALUE})
-    ResponseEntity<RepresentationModel<?>> createMenu(@Valid @RequestBody CreateMenuModel input) {
+    ResponseEntity<RepresentationModel<?>> createMenu(@Valid @RequestBody Menu input) {
         log.debug("REST request to create menu: {}", input);
         MenuModel menu = executeCreateMenu(input);
         Link self = menu.getRequiredLink(SELF);
@@ -63,9 +62,9 @@ class CreateMenuController {
      * @param input create menu model
      * @return menu model
      */
-    private MenuModel executeCreateMenu(CreateMenuModel input) {
+    private MenuModel executeCreateMenu(Menu input) {
         CreateMenuCommand command = menuWebMapper.mapToCommand(input);
-        Menu menu = createMenuUseCase.create(command);
+        var menu = createMenuUseCase.create(command);
         return menuModelAssembler.toModel(menu);
     }
 

@@ -1,11 +1,12 @@
 package food.booking.app.business.app.port.in.group;
 
 import food.booking.app.business.domain.Menu;
-import food.booking.app.shared.SelfValidate;
+import food.booking.app.shared.validation.FileUrlOrNull;
+import food.booking.app.shared.validation.SortOrder;
 import food.booking.app.shared.validation.Title;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 
@@ -15,26 +16,24 @@ import java.net.URI;
  * @author shazam2morrow
  */
 @Getter
-public class CreateGroupCommand extends SelfValidate<CreateGroupCommand> {
+@RequiredArgsConstructor
+public class CreateGroupCommand {
 
     @Title
     private final String title;
 
-    @NotNull(message = "menu can not be null")
-    private final Menu menu;
-
-    @Nullable
+    @FileUrlOrNull
     private final URI iconUrl;
 
-    @Nullable
+    @NotNull(message = "group.menu.notnull")
+    private final Menu menu;
+
+    @SortOrder
     private final Short sortOrder;
 
-    public CreateGroupCommand(Menu menu, String title, @Nullable Short sortOrder, @Nullable URI iconUrl) {
-        this.menu = menu;
-        this.title = title;
-        this.iconUrl = iconUrl;
-        this.sortOrder = sortOrder;
-        selfValidate();
+    @Override
+    public String toString() {
+        return "group";
     }
 
 }

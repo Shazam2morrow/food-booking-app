@@ -8,9 +8,10 @@ import food.booking.app.business.app.port.in.item.LoadItemDetailsUseCase;
 import food.booking.app.business.app.port.in.item.UpdateItemDetailsCommand;
 import food.booking.app.business.app.port.in.item.UpdateItemDetailsUseCase;
 import food.booking.app.business.domain.Item;
-import food.booking.app.shared.PatchApplier;
+import food.booking.app.shared.web.PatchApplier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -29,8 +30,9 @@ class UpdateItemDetailsController extends PatchApplier<Item, UpdateItemDetailsCo
 
     public UpdateItemDetailsController(ObjectMapper objectMapper,
                                        LoadItemDetailsUseCase loadItemDetailsUseCase,
-                                       UpdateItemDetailsUseCase updateItemDetailsUseCase) {
-        super(objectMapper);
+                                       UpdateItemDetailsUseCase updateItemDetailsUseCase,
+                                       LocalValidatorFactoryBean localValidatorFactoryBean) {
+        super(localValidatorFactoryBean, objectMapper);
         this.loadItemDetailsUseCase = loadItemDetailsUseCase;
         this.updateItemDetailsUseCase = updateItemDetailsUseCase;
     }

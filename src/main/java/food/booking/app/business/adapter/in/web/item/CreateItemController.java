@@ -4,7 +4,6 @@ import food.booking.app.business.adapter.in.web.group.GroupModel;
 import food.booking.app.business.adapter.in.web.group.GroupModelAssembler;
 import food.booking.app.business.app.port.in.item.CreateItemCommand;
 import food.booking.app.business.app.port.in.item.CreateItemUseCase;
-import food.booking.app.business.domain.Item;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Link;
@@ -48,7 +47,7 @@ class CreateItemController {
      * @return item model
      */
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaTypes.HAL_JSON_VALUE})
-    ResponseEntity<RepresentationModel<?>> createItem(@Valid @RequestBody CreateItemModel input) {
+    ResponseEntity<RepresentationModel<?>> createItem(@Valid @RequestBody Item input) {
         log.debug("REST request to create item: {}", input);
         ItemModel item = executeCreateItem(input);
         Link self = item.getRequiredLink(SELF);
@@ -63,9 +62,9 @@ class CreateItemController {
      * @param input create item model
      * @return item model
      */
-    private ItemModel executeCreateItem(CreateItemModel input) {
+    private ItemModel executeCreateItem(Item input) {
         CreateItemCommand command = itemWebMapper.mapToCommand(input);
-        Item item = createItemUseCase.create(command);
+        food.booking.app.business.domain.Item item = createItemUseCase.create(command);
         return itemModelAssembler.toModel(item);
     }
 

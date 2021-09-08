@@ -1,5 +1,6 @@
 package food.booking.app.business.app.port.in.restaurant;
 
+import food.booking.app.business.app.port.in.restaurant.exception.RestaurantNotFoundException;
 import food.booking.app.business.domain.Restaurant;
 
 /**
@@ -14,6 +15,7 @@ public interface LoadRestaurantDetailsUseCase {
      *
      * @param restaurantSlug restaurant slug
      * @return restaurant details
+     * @throws RestaurantNotFoundException if restaurant was not found
      */
     Restaurant loadDetailsBySlug(String restaurantSlug);
 

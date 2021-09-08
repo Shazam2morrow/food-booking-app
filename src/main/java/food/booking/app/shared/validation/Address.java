@@ -1,7 +1,11 @@
 package food.booking.app.shared.validation;
 
+import food.booking.app.shared.size.AddressSize;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.lang.annotation.*;
 
 /**
@@ -11,11 +15,13 @@ import java.lang.annotation.*;
  */
 @Documented
 @Target({ElementType.FIELD})
+@Constraint(validatedBy = {})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = AddressValidator.class)
+@NotNull(message = "address.notnull")
+@Size(min = AddressSize.MIN, max = AddressSize.MAX, message = "address.invalid.size")
 public @interface Address {
 
-    String message() default "{Address.invalid}";
+    String message() default "";
 
     Class<?>[] groups() default {};
 

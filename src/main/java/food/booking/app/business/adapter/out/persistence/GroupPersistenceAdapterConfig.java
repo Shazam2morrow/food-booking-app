@@ -12,19 +12,19 @@ import org.springframework.context.annotation.Configuration;
 class GroupPersistenceAdapterConfig {
 
     @Bean
-    GroupPersistenceAdapter grouppersistenceAdapter(GroupRepository groupRepository,
+    GroupPersistenceAdapter groupPersistenceAdapter(GroupRepository groupRepository,
                                                     GroupPersistenceMapper groupPersistenceMapper,
                                                     GroupPersistenceResolver groupPersistenceResolver) {
         return new GroupPersistenceAdapter(groupRepository, groupPersistenceMapper, groupPersistenceResolver);
     }
 
     @Bean
-    GroupPersistenceMapper grouppersistenceMapper(MenuPersistenceResolver menuPersistenceResolver) {
-        return new GroupPersistenceMapper(menuPersistenceResolver);
+    GroupPersistenceMapper groupPersistenceMapper(MenuPersistenceResolver menuPersistenceResolver, GroupPersistenceResolver groupPersistenceResolver) {
+        return new GroupPersistenceMapper(menuPersistenceResolver, groupPersistenceResolver);
     }
 
     @Bean
-    GroupPersistenceResolver grouppersistenceResolver(GroupRepository groupRepository) {
+    GroupPersistenceResolver groupPersistenceResolver(GroupRepository groupRepository) {
         return new GroupPersistenceResolver(groupRepository);
     }
 

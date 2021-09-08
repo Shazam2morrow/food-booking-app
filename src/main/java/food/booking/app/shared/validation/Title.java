@@ -1,7 +1,11 @@
 package food.booking.app.shared.validation;
 
+import food.booking.app.shared.size.TitleSize;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.lang.annotation.*;
 
 /**
@@ -11,11 +15,13 @@ import java.lang.annotation.*;
  */
 @Documented
 @Target({ElementType.FIELD})
+@Constraint(validatedBy = {})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = TitleValidator.class)
+@NotNull(message = "title.notnull")
+@Size(min = TitleSize.MIN, max = TitleSize.MAX, message = "title.invalid.size")
 public @interface Title {
 
-    String message() default "Invalid title";
+    String message() default "";
 
     Class<?>[] groups() default {};
 

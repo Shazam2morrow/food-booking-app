@@ -1,9 +1,13 @@
 package food.booking.app.business.adapter.out.persistence;
 
+import food.booking.app.business.app.port.in.category.exception.CategoryNotFoundException;
 import food.booking.app.business.app.port.out.category.CreateCategory;
 import food.booking.app.business.app.port.out.category.UpdateCategoryDetails;
 import food.booking.app.business.domain.Category;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Category persistence mapper
@@ -13,6 +17,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 class CategoryPersistenceMapper {
 
+    private final CategoryPersistenceResolver categoryPersistenceResolver;
+
+    /**
+     * Map to category jpa entity
+     *
+     * @param createCategory create category
+     * @return category jpa entity
+     */
     CategoryJpaEntity mapToJpaEntity(CreateCategory createCategory) {
         return new CategoryJpaEntity(
                 createCategory.slug(),
@@ -21,23 +33,50 @@ class CategoryPersistenceMapper {
                 createCategory.iconUrl());
     }
 
+    /**
+     * Map to category domain entity
+     *
+     * @param entity category jpa entity
+     * @return category domain entity
+     */
     Category mapToDomainEntity(CategoryJpaEntity entity) {
-        var dto = new Category();
-        dto.setSlug(entity.getSlug());
-        dto.setTitle(entity.getTitle());
-        dto.setActive(entity.isActive());
-        dto.setIconUrl(entity.getIconUrl());
-        dto.setSortOrder(entity.getSortOrder());
-        dto.setCreatedAt(entity.getCreatedAt());
-        dto.setUpdatedAt(entity.getUpdatedAt());
-        return dto;
+        var category = new Category();
+        category.setSlug(entity.getSlug());
+        category.setTitle(entity.getTitle());
+        category.setActive(entity.isActive());
+        category.setIconUrl(entity.getIconUrl());
+        category.setSortOrder(entity.getSortOrder());
+        category.setCreatedAt(entity.getCreatedAt());
+        category.setUpdatedAt(entity.getUpdatedAt());
+        return category;
     }
 
-    void applyUpdatedDetails(CategoryJpaEntity category, UpdateCategoryDetails details) {
-        category.setTitle(details.title());
-        category.setActive(details.active());
-        category.setIconUrl(details.iconUrl());
-        category.setSortOrder(details.sortOrder());
+    /**
+     * Map to domain entities
+     *
+     * @param entities category jpa entities
+     * @return list of category domain entities
+     */
+    List<Category> mapToDomainEntities(List<CategoryJpaEntity> entities) {
+        return entities.stream()
+                .map(this::mapToDomainEntity)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Apply updated details
+     *
+     * @param details update category details
+     * @return updated category details
+     * @throws CategoryNotFoundException if category was not found
+     */
+    Category applyUpdatedDetails(UpdateCategoryDetails details) {
+        CategoryJpaEntity entity = categoryPersistenceResolver.resolve(details);
+        entity.setTitle(details.title());
+        entity.setActive(details.active());
+        entity.setIconUrl(details.iconUrl());
+        entity.setSortOrder(details.sortOrder());
+        return mapToDomainEntity(entity);
     }
 
 }

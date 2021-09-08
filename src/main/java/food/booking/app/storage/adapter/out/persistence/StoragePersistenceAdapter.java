@@ -50,7 +50,7 @@ class StoragePersistenceAdapter implements CreateFilePort,
 
     @Override
     public boolean checkUrl(URI fileUrl) {
-        return uploadedFileRepository.existsByUrl(requireValidFileUrl(fileUrl));
+        return uploadedFileRepository.existsByUrlAndDeletedFalse(requireValidFileUrl(fileUrl));
     }
 
     /**

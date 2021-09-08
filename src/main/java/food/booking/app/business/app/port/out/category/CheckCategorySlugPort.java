@@ -1,11 +1,13 @@
 package food.booking.app.business.app.port.out.category;
 
+import food.booking.app.shared.SlugCheckable;
+
 /**
  * Check category port
  *
  * @author shazam2morrow
  */
-public interface CheckCategorySlugPort {
+public interface CheckCategorySlugPort extends SlugCheckable {
 
     /**
      * Check if category with the given slug exists
@@ -13,6 +15,8 @@ public interface CheckCategorySlugPort {
      * @param categorySlug category slug
      * @return true if category exists or false otherwise
      */
-    boolean checkBySlug(String categorySlug);
+    default boolean checkBySlug(String categorySlug) {
+        return check(categorySlug);
+    }
 
 }

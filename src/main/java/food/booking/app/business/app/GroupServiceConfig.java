@@ -1,7 +1,7 @@
 package food.booking.app.business.app;
 
 import food.booking.app.business.app.port.out.group.*;
-import food.booking.app.storage.app.FileUriResolver;
+import food.booking.app.storage.app.FileUrlResolver;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,10 +29,10 @@ class GroupServiceConfig {
     }
 
     @Bean
-    GroupServiceMapper groupServiceMapper(FileUriResolver fileUriResolver,
+    GroupServiceMapper groupServiceMapper(FileUrlResolver fileUrlResolver,
                                           CheckGroupSlugPort checkGroupSlugPort,
                                           RandomStringGenerator randomStringGenerator) {
-        return new GroupServiceMapper(fileUriResolver, checkGroupSlugPort, randomStringGenerator);
+        return new GroupServiceMapper(fileUrlResolver, checkGroupSlugPort, randomStringGenerator);
     }
 
 }

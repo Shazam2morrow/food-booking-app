@@ -9,6 +9,7 @@ import food.booking.app.business.app.port.in.restaurant.LoadRestaurantSliceUseCa
 import food.booking.app.business.app.port.in.restaurant.UpdateRestaurantDetailsUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * Restaurant web adapter configuration
@@ -28,10 +29,12 @@ class RestaurantWebAdapterConfig {
     @Bean
     UpdateRestaurantDetailsController updateRestaurantDetailsController(
             ObjectMapper objectMapper,
+            LocalValidatorFactoryBean localValidatorFactoryBean,
             LoadRestaurantDetailsUseCase restaurantDetailsUseCase,
             UpdateRestaurantDetailsUseCase updateRestaurantDetailsUseCase) {
         return new UpdateRestaurantDetailsController(
                 objectMapper,
+                localValidatorFactoryBean,
                 restaurantDetailsUseCase,
                 updateRestaurantDetailsUseCase);
     }

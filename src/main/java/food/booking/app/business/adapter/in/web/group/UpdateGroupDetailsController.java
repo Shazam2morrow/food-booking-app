@@ -8,9 +8,10 @@ import food.booking.app.business.app.port.in.group.LoadGroupDetailsUseCase;
 import food.booking.app.business.app.port.in.group.UpdateGroupDetailsCommand;
 import food.booking.app.business.app.port.in.group.UpdateGroupDetailsUseCase;
 import food.booking.app.business.domain.Group;
-import food.booking.app.shared.PatchApplier;
+import food.booking.app.shared.web.PatchApplier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -29,8 +30,9 @@ class UpdateGroupDetailsController extends PatchApplier<Group, UpdateGroupDetail
 
     public UpdateGroupDetailsController(ObjectMapper objectMapper,
                                         LoadGroupDetailsUseCase loadGroupDetailsUseCase,
-                                        UpdateGroupDetailsUseCase updateGroupDetailsUseCase) {
-        super(objectMapper);
+                                        UpdateGroupDetailsUseCase updateGroupDetailsUseCase,
+                                        LocalValidatorFactoryBean localValidatorFactoryBean) {
+        super(localValidatorFactoryBean, objectMapper);
         this.loadGroupDetailsUseCase = loadGroupDetailsUseCase;
         this.updateGroupDetailsUseCase = updateGroupDetailsUseCase;
     }

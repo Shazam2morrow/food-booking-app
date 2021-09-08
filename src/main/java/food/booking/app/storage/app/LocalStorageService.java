@@ -3,7 +3,7 @@ package food.booking.app.storage.app;
 import food.booking.app.shared.size.SlugSize;
 import food.booking.app.storage.adapter.out.persistence.StorageType;
 import food.booking.app.storage.app.port.in.*;
-import food.booking.app.storage.app.port.in.exception.InvalidPathException;
+import food.booking.app.storage.app.port.in.exception.InvalidFileNameException;
 import food.booking.app.storage.app.port.in.exception.StorageException;
 import food.booking.app.storage.app.port.out.*;
 import food.booking.app.storage.domain.File;
@@ -41,10 +41,6 @@ class LocalStorageService implements UploadFileUseCase,
 
     private final static String DEFAULT_MIME_TYPE = "application/octet-stream";
 
-    private final static String STORAGE_ERROR_MSG = "Could not store file %s. Please try again!";
-
-    private final static String INVALID_PATH_ERROR_MSG = "File name contains invalid path sequence %s";
-
     private final static String STORAGE_LOCATION_ERROR_MSG = "Could not create the directory %s where the uploaded files will be stored!";
 
     private final static String MIME_GUESS_WARN_MSG = "Failed to guess mime type of a file. Returning '" + DEFAULT_MIME_TYPE + "' as default value!";
@@ -73,7 +69,7 @@ class LocalStorageService implements UploadFileUseCase,
         try {
             Files.createDirectories(fileStorageLocation);
         } catch (IOException ex) {
-            throw new StorageException(String.format(STORAGE_LOCATION_ERROR_MSG, uploadDirectory), ex);
+            throw new IllegalStateException(String.format(STORAGE_LOCATION_ERROR_MSG, uploadDirectory));
         }
         this.createFilePort = createFilePort;
         this.deleteFilePort = deleteFilePort;
@@ -93,8 +89,7 @@ class LocalStorageService implements UploadFileUseCase,
         try {
             // check original name for invalid path sequences
             if (Objects.nonNull(originalName) && originalName.contains("..")) {
-                String message = String.format(INVALID_PATH_ERROR_MSG, originalName);
-                throw new InvalidPathException(message);
+                throw new InvalidFileNameException(originalName);
             }
             String slug = command.getSlug();
             // resolve target location on the local file system for the file
@@ -121,7 +116,7 @@ class LocalStorageService implements UploadFileUseCase,
                 return createFilePort.create(createUploadedFile);
             }
         } catch (IOException ex) {
-            throw new StorageException(String.format(STORAGE_ERROR_MSG, originalName), ex);
+            throw new StorageException(originalName, ex);
         }
     }
 
@@ -137,10 +132,10 @@ class LocalStorageService implements UploadFileUseCase,
     @Override
     @Transactional(readOnly = true)
     public File loadBySlug(String fileSlug) {
-        File dto = loadFileDetailsPort.loadBySlug(requireValidSlug(fileSlug));
-        String absolutePath = fileStorageLocation.resolve(dto.getSlug()).toAbsolutePath().toString();
-        dto.setAbsolutePath(absolutePath);
-        return dto;
+        File file = loadFileDetailsPort.loadBySlug(requireValidSlug(fileSlug));
+        String absolutePath = fileStorageLocation.resolve(file.getSlug()).toAbsolutePath().toString();
+        file.setAbsolutePath(absolutePath);
+        return file;
     }
 
     @Override

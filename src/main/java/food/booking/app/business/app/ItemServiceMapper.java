@@ -5,6 +5,7 @@ import food.booking.app.business.app.port.in.item.UpdateItemDetailsCommand;
 import food.booking.app.business.app.port.out.item.CheckItemSlugPort;
 import food.booking.app.business.app.port.out.item.CreateItem;
 import food.booking.app.business.app.port.out.item.UpdateItemDetails;
+import food.booking.app.business.domain.Item;
 import food.booking.app.shared.size.SlugSize;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.text.RandomStringGenerator;
@@ -32,6 +33,19 @@ class ItemServiceMapper {
                 command.getCookingTime(),
                 command.getDescription(),
                 command.getBannerUrl());
+    }
+
+    UpdateItemDetailsCommand mapToUpdateItemDetailsCommand(Item item) {
+        return new UpdateItemDetailsCommand(
+                item.getSlug(),
+                item.getTitle(),
+                item.getBannerUrl(),
+                item.getDescription(),
+                item.getActive(),
+                item.getPrice(),
+                item.getCalories(),
+                item.getSortOrder(),
+                item.getCookingTime());
     }
 
     UpdateItemDetails mapToUpdateItemDetails(UpdateItemDetailsCommand command) {

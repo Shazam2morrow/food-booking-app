@@ -59,4 +59,9 @@ class RestaurantCategoryJpaEntity {
     )
     private RestaurantJpaEntity restaurant;
 
+    RestaurantCategoryJpaEntity(CategoryJpaEntity category, RestaurantJpaEntity restaurant) {
+        this.category = category;
+        this.restaurant = restaurant;
+    }
+
 }

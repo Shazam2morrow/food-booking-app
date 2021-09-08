@@ -13,7 +13,7 @@ public interface CreateCategoryPort {
      * Create category
      *
      * @param createCategory create category
-     * @return category
+     * @return created category
      */
     Category create(CreateCategory createCategory);
 

@@ -40,15 +40,16 @@ class DownloadFileController {
     ResponseEntity<StreamingResponseBody> downloadFile(@PathVariable String fileSlug,
                                                        HttpServletResponse response) throws IOException {
         log.debug("REST request to download file: {}", fileSlug);
-        File dto = loadFileDetailsUseCase.loadBySlug(fileSlug);
-        if (dto.isDeleted()) {
-            return ResponseEntity.notFound().build();
+        File file = loadFileDetailsUseCase.loadBySlug(fileSlug);
+        if (file.isDeleted()) {
+            throw new food.booking.app.storage.app.port.in.exception.FileNotFoundException(file.getSlug());
+        } else {
+            response.setContentType(file.getMimeType());
+            response.setContentLengthLong(file.getSize());
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, buildContentDisposition(file.getOriginalName()));
+            InputStream stream = buildInputStream(file.getAbsolutePath());
+            return ResponseEntity.ok(buildResponseBody(stream, response.getOutputStream()));
         }
-        response.setContentType(dto.getMimeType());
-        response.setContentLengthLong(dto.getSize());
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, buildContentDisposition(dto.getOriginalName()));
-        InputStream stream = buildInputStream(dto.getAbsolutePath());
-        return ResponseEntity.ok(buildResponseBody(stream, response.getOutputStream()));
     }
 
     /**

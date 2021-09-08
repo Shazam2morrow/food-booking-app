@@ -2,6 +2,7 @@ package food.booking.app.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import food.booking.app.business.adapter.out.persistence.RestaurantType;
+import food.booking.app.shared.Slugable;
 import food.booking.app.shared.domain.DailySchedule;
 import food.booking.app.shared.domain.Location;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Restaurant domain entity
@@ -22,7 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Restaurant {
+public class Restaurant implements Slugable<String> {
 
     private String slug;
     private String title;
@@ -47,7 +49,11 @@ public class Restaurant {
     }
 
     public boolean hasCategories() {
-        return !categories.isEmpty();
+        return Objects.nonNull(categories) && !categories.isEmpty();
+    }
+
+    public String getSlug() {
+        return slug;
     }
 
 }

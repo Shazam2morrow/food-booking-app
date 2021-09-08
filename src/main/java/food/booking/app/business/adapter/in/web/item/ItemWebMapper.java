@@ -15,16 +15,16 @@ class ItemWebMapper {
      * @param model model
      * @return create item command
      */
-    CreateItemCommand mapToCommand(CreateItemModel model) {
+    CreateItemCommand mapToCommand(Item model) {
         return new CreateItemCommand(
-                model.group(),
                 model.title(),
-                model.bannerUrl(),
+                model.description(),
+                model.group(),
                 model.price(),
                 model.calories(),
                 model.sortOrder(),
                 model.cookingTime(),
-                model.description());
+                model.bannerUrl());
     }
 
 }

@@ -1,12 +1,14 @@
 package food.booking.app.business.app;
 
 import food.booking.app.business.app.port.in.group.*;
+import food.booking.app.business.app.port.in.group.exception.GroupServiceException;
 import food.booking.app.business.app.port.out.group.*;
 import food.booking.app.business.domain.Group;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
  * @author shazam2morrow
  */
 @Slf4j
+@Validated
 @RequiredArgsConstructor
 class GroupService implements CreateGroupUseCase,
         LoadMenuGroupListUseCase,
@@ -37,16 +40,24 @@ class GroupService implements CreateGroupUseCase,
     @Transactional
     public Group create(CreateGroupCommand command) {
         log.debug("Trying to create group: {}", command);
-        CreateGroup createGroup = groupServiceMapper.mapToCreateGroup(requireValid(command));
-        return createGroupPort.create(createGroup);
+        try {
+            CreateGroup group = groupServiceMapper.mapToCreateGroup(requireValid(command));
+            return createGroupPort.create(group);
+        } catch (Exception ex) {
+            throw new GroupServiceException("Failed to create group!", ex);
+        }
     }
 
     @Override
     @Transactional
     public void update(UpdateGroupDetailsCommand command) {
         log.debug("Trying to update group details: {}", command);
-        UpdateGroupDetails details = groupServiceMapper.mapToUpdateGroupDetails(requireValid(command));
-        updateGroupDetailsPort.update(details);
+        try {
+            UpdateGroupDetails details = groupServiceMapper.mapToUpdateGroupDetails(requireValid(command));
+            updateGroupDetailsPort.update(details);
+        } catch (Exception ex) {
+            throw new GroupServiceException("Failed to update group details!", ex);
+        }
     }
 
     @Override
@@ -54,14 +65,10 @@ class GroupService implements CreateGroupUseCase,
     public void deleteBySlug(String groupSlug) {
         log.debug("Trying to delete group: {}", groupSlug);
         Group group = loadDetailsBySlug(groupSlug);
-        group.setActive(Boolean.FALSE);
-        var command = new UpdateGroupDetailsCommand(
-                group.getSlug(),
-                group.getTitle(),
-                group.getSortOrder(),
-                group.getActive(),
-                group.getIconUrl());
-        update(command);
+        if (group.isActive()) {
+            group.setActive(Boolean.FALSE);
+            update(groupServiceMapper.mapToUpdateGroupDetailsCommand(group));
+        }
     }
 
     @Override
@@ -91,7 +98,7 @@ class GroupService implements CreateGroupUseCase,
     /**
      * Validate object
      *
-     * @param command update group details
+     * @param command update group details command
      * @return validated object
      */
     private UpdateGroupDetailsCommand requireValid(UpdateGroupDetailsCommand command) {

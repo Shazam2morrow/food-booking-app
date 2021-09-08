@@ -31,8 +31,8 @@ class StorageServiceConfig {
     }
 
     @Bean
-    FileUriResolver fileUriResolver(CheckFileUrlPort checkFileUrlPort) {
-        return new FileUriResolver(checkFileUrlPort);
+    FileUrlResolver fileUrlResolver(CheckFileUrlPort checkFileUrlPort) {
+        return new FileUrlResolver(checkFileUrlPort);
     }
 
 }

@@ -8,6 +8,7 @@ package food.booking.app.shared.size;
 public interface TitleSize {
 
     int MIN = 3;
+
     int MAX = 255;
 
 }

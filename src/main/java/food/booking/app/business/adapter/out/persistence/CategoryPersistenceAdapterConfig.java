@@ -12,15 +12,24 @@ import org.springframework.context.annotation.Configuration;
 class CategoryPersistenceAdapterConfig {
 
     @Bean
-    CategorySlugPersistenceAdapter categorypersistenceAdapter(CategoryRepository categoryRepository,
-                                                              CategoryPersistenceMapper categoryPersistenceMapper,
-                                                              CategoryPersistenceResolver categoryPersistenceResolver) {
-        return new CategorySlugPersistenceAdapter(categoryRepository, categoryPersistenceMapper, categoryPersistenceResolver);
+    CategoryPersistenceAdapter categoryPersistenceAdapter(
+            CategoryRepository categoryRepository,
+            CategoryPersistenceMapper categoryPersistenceMapper,
+            CategoryPersistenceResolver categoryPersistenceResolver) {
+        return new CategoryPersistenceAdapter(
+                categoryRepository,
+                categoryPersistenceMapper,
+                categoryPersistenceResolver);
     }
 
     @Bean
-    CategoryPersistenceMapper categorypersistenceMapper() {
-        return new CategoryPersistenceMapper();
+    CategoryPersistenceResolver categoryPersistenceResolver(CategoryRepository categoryRepository) {
+        return new CategoryPersistenceResolver(categoryRepository);
+    }
+
+    @Bean
+    CategoryPersistenceMapper categoryPersistenceMapper(CategoryPersistenceResolver categoryPersistenceResolver) {
+        return new CategoryPersistenceMapper(categoryPersistenceResolver);
     }
 
 }

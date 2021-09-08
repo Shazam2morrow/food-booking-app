@@ -12,20 +12,21 @@ import org.springframework.context.annotation.Configuration;
 class MenuPersistenceAdapterConfig {
 
     @Bean
-    MenuSlugPersistenceAdapter menupersistenceAdapter(
+    MenuPersistenceAdapter menuPersistenceAdapter(
             MenuRepository menuRepository,
             MenuPersistenceMapper menuPersistenceMapper,
             MenuPersistenceResolver menuPersistenceResolver) {
-        return new MenuSlugPersistenceAdapter(menuRepository, menuPersistenceMapper, menuPersistenceResolver);
+        return new MenuPersistenceAdapter(menuRepository, menuPersistenceMapper, menuPersistenceResolver);
     }
 
     @Bean
-    MenuPersistenceMapper menupersistenceMapper(RestaurantPersistenceResolver restaurantPersistenceResolver) {
-        return new MenuPersistenceMapper(restaurantPersistenceResolver);
+    MenuPersistenceMapper menuPersistenceMapper(MenuPersistenceResolver menuPersistenceResolver,
+                                                RestaurantPersistenceResolver restaurantPersistenceResolver) {
+        return new MenuPersistenceMapper(menuPersistenceResolver, restaurantPersistenceResolver);
     }
 
     @Bean
-    MenuPersistenceResolver menupersistenceResolver(MenuRepository menuRepository) {
+    MenuPersistenceResolver menuPersistenceResolver(MenuRepository menuRepository) {
         return new MenuPersistenceResolver(menuRepository);
     }
 

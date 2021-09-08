@@ -7,6 +7,7 @@ import food.booking.app.business.app.port.in.group.*;
 import food.booking.app.business.app.port.in.menu.LoadMenuDetailsUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * Group web adapter configuration
@@ -50,8 +51,13 @@ class GroupWebAdapterConfig {
     @Bean
     UpdateGroupDetailsController updateGroupDetailsController(ObjectMapper objectMapper,
                                                               LoadGroupDetailsUseCase loadGroupDetailsUseCase,
-                                                              UpdateGroupDetailsUseCase updateGroupDetailsUseCase) {
-        return new UpdateGroupDetailsController(objectMapper, loadGroupDetailsUseCase, updateGroupDetailsUseCase);
+                                                              UpdateGroupDetailsUseCase updateGroupDetailsUseCase,
+                                                              LocalValidatorFactoryBean localValidatorFactoryBean) {
+        return new UpdateGroupDetailsController(
+                objectMapper,
+                loadGroupDetailsUseCase,
+                updateGroupDetailsUseCase,
+                localValidatorFactoryBean);
     }
 
     @Bean

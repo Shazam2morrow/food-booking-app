@@ -8,6 +8,7 @@ package food.booking.app.shared.size;
 public interface AddressSize {
 
     int MIN = 5;
+
     int MAX = 255;
 
 }

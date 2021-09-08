@@ -2,7 +2,7 @@ package food.booking.app.business.adapter.in.web.item;
 
 import food.booking.app.business.app.port.in.group.LoadGroupItemSliceUseCase;
 import food.booking.app.business.domain.Item;
-import food.booking.app.shared.model.SlicedModel;
+import food.booking.app.shared.web.model.SlicedModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;

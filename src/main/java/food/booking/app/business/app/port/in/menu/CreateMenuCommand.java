@@ -1,12 +1,12 @@
 package food.booking.app.business.app.port.in.menu;
 
 import food.booking.app.business.domain.Restaurant;
-import food.booking.app.shared.SelfValidate;
+import food.booking.app.shared.validation.SortOrder;
 import food.booking.app.shared.validation.Title;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 
 /**
  * Create menu command
@@ -14,22 +14,16 @@ import javax.validation.constraints.PositiveOrZero;
  * @author shazam2morrow
  */
 @Getter
-public class CreateMenuCommand extends SelfValidate<CreateMenuCommand> {
+@RequiredArgsConstructor
+public class CreateMenuCommand {
 
     @Title
     private final String title;
 
-    @NotNull(message = "restaurant can not be null")
+    @NotNull(message = "menu.restaurant.notnull")
     private final Restaurant restaurant;
 
-    @PositiveOrZero(message = "sortOrder can be negative")
+    @SortOrder
     private final Short sortOrder;
-
-    public CreateMenuCommand(String title, Short sortOrder, Restaurant restaurant) {
-        this.title = title;
-        this.sortOrder = sortOrder;
-        this.restaurant = restaurant;
-        selfValidate();
-    }
 
 }

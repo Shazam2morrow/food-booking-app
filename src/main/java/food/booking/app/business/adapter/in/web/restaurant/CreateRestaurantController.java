@@ -2,7 +2,6 @@ package food.booking.app.business.adapter.in.web.restaurant;
 
 import food.booking.app.business.app.port.in.restaurant.CreateRestaurantCommand;
 import food.booking.app.business.app.port.in.restaurant.CreateRestaurantUseCase;
-import food.booking.app.business.domain.Restaurant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.MediaTypes;
@@ -41,10 +40,10 @@ class CreateRestaurantController {
      * @return restaurant model
      */
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaTypes.HAL_JSON_VALUE})
-    ResponseEntity<RepresentationModel<?>> createRestaurant(@Valid @RequestBody CreateRestaurantModel input) {
+    ResponseEntity<RepresentationModel<?>> createRestaurant(@Valid @RequestBody Restaurant input) {
         log.debug("REST request to create restaurant: {}", input);
         CreateRestaurantCommand command = restaurantWebMapper.mapToCommand(input);
-        Restaurant restaurant = createRestaurantUseCase.create(command);
+        var restaurant = createRestaurantUseCase.create(command);
         RepresentationModel<?> model = restaurantModelAssembler.toHalModel(restaurant);
         return model.getLink("self")
                 .<ResponseEntity<RepresentationModel<?>>>map(link -> ResponseEntity.created(link.toUri()).body(model))

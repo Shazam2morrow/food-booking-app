@@ -1,13 +1,9 @@
 package food.booking.app.business.app.port.in.group;
 
-import food.booking.app.shared.SelfValidate;
-import food.booking.app.shared.validation.Slug;
-import food.booking.app.shared.validation.Title;
+import food.booking.app.shared.validation.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 import java.net.URI;
 
 /**
@@ -16,7 +12,8 @@ import java.net.URI;
  * @author shazam2morrow
  */
 @Getter
-public class UpdateGroupDetailsCommand extends SelfValidate<UpdateGroupDetailsCommand> {
+@RequiredArgsConstructor
+public class UpdateGroupDetailsCommand {
 
     @Slug
     private final String slug;
@@ -24,30 +21,22 @@ public class UpdateGroupDetailsCommand extends SelfValidate<UpdateGroupDetailsCo
     @Title
     private final String title;
 
-    @NotNull(message = "active can not be null")
+    @Active
     private final Boolean active;
 
-    @PositiveOrZero(message = "sortOrder can not be negative")
+    @SortOrder
     private final Short sortOrder;
 
-    @Nullable
+    @FileUrlOrNull
     private final URI iconUrl;
-
-    public UpdateGroupDetailsCommand(String slug,
-                                     String title,
-                                     Short sortOrder,
-                                     Boolean active,
-                                     @Nullable URI iconUrl) {
-        this.slug = slug;
-        this.title = title;
-        this.active = active;
-        this.iconUrl = iconUrl;
-        this.sortOrder = sortOrder;
-        selfValidate();
-    }
 
     public Boolean isActive() {
         return active;
+    }
+
+    @Override
+    public String toString() {
+        return "group";
     }
 
 }

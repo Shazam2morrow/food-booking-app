@@ -15,8 +15,8 @@ class MenuWebMapper {
      * @param model create menu model
      * @return create menu command
      */
-    CreateMenuCommand mapToCommand(CreateMenuModel model) {
-        return new CreateMenuCommand(model.title(), model.sortOrder(), model.restaurant());
+    CreateMenuCommand mapToCommand(Menu model) {
+        return new CreateMenuCommand(model.title(), model.restaurant(), model.sortOrder());
     }
 
 }

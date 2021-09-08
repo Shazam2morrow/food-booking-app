@@ -1,5 +1,7 @@
 package food.booking.app.business.app.port.out.item;
 
+import food.booking.app.shared.Slugable;
+
 import java.math.BigDecimal;
 import java.net.URI;
 
@@ -16,5 +18,10 @@ public record UpdateItemDetails(String slug,
                                 Integer calories,
                                 Integer sortOrder,
                                 Short cookingTime,
-                                String description) {
+                                String description) implements Slugable<String> {
+
+    public String getSlug() {
+        return slug;
+    }
+
 }

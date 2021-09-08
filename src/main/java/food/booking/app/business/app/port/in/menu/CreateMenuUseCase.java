@@ -2,6 +2,8 @@ package food.booking.app.business.app.port.in.menu;
 
 import food.booking.app.business.domain.Menu;
 
+import javax.validation.Valid;
+
 /**
  * Create menu use case
  *
@@ -15,6 +17,6 @@ public interface CreateMenuUseCase {
      * @param command create menu command
      * @return create menu DTO
      */
-    Menu create(CreateMenuCommand command);
+    Menu create(@Valid CreateMenuCommand command);
 
 }

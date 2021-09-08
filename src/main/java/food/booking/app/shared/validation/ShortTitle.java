@@ -1,7 +1,10 @@
 package food.booking.app.shared.validation;
 
+import food.booking.app.shared.size.ShortTitleSize;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
+import javax.validation.constraints.Size;
 import java.lang.annotation.*;
 
 /**
@@ -11,11 +14,12 @@ import java.lang.annotation.*;
  */
 @Documented
 @Target({ElementType.FIELD})
+@Constraint(validatedBy = {})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ShortTitleValidator.class)
+@Size(min = ShortTitleSize.MIN, max = ShortTitleSize.MAX, message = "shorttitle.invalid.size")
 public @interface ShortTitle {
 
-    String message() default "{ShortTitle.invalid}";
+    String message() default "";
 
     Class<?>[] groups() default {};
 

@@ -28,7 +28,8 @@ class MenuServiceConfig {
     }
 
     @Bean
-    MenuServiceMapper menuServiceMapper(CheckMenuSlugPort checkMenuSlugPort, RandomStringGenerator randomStringGenerator) {
+    MenuServiceMapper menuServiceMapper(CheckMenuSlugPort checkMenuSlugPort,
+                                        RandomStringGenerator randomStringGenerator) {
         return new MenuServiceMapper(checkMenuSlugPort, randomStringGenerator);
     }
 

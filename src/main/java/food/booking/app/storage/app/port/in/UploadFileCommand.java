@@ -1,6 +1,5 @@
 package food.booking.app.storage.app.port.in;
 
-import food.booking.app.shared.SelfValidate;
 import food.booking.app.shared.validation.Slug;
 import food.booking.app.storage.app.port.in.exception.StorageException;
 import lombok.Getter;
@@ -18,7 +17,7 @@ import java.util.HashSet;
  * @author shazam2morrow
  */
 @Getter
-public class UploadFileCommand extends SelfValidate<UploadFileCommand> {
+public class UploadFileCommand {
 
     @Slug
     private final String slug;
@@ -33,7 +32,6 @@ public class UploadFileCommand extends SelfValidate<UploadFileCommand> {
         this.url = url;
         this.slug = slug;
         this.resource = resource;
-        selfValidate();
         requireNotEmpty(resource);
     }
 
@@ -48,7 +46,7 @@ public class UploadFileCommand extends SelfValidate<UploadFileCommand> {
                 throw new ConstraintViolationException("Resource can not be empty!", new HashSet<>());
             }
         } catch (IOException ex) {
-            throw new StorageException("Could not retrieve size of a resource. Please try again!", ex);
+            throw new StorageException(resource.getFilename(), ex);
         }
     }
 

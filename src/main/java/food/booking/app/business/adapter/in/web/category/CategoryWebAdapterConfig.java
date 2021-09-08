@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import food.booking.app.business.app.port.in.category.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * Category web adapter configuration
@@ -30,10 +31,12 @@ class CategoryWebAdapterConfig {
     @Bean
     UpdateCategoryDetailsController updateCategoryDetailsController(
             ObjectMapper objectMapper,
+            LocalValidatorFactoryBean localValidatorFactoryBean,
             LoadCategoryDetailsUseCase loadCategoryDetailsUseCase,
             UpdateCategoryDetailsUseCase updateCategoryDetailsUseCase) {
         return new UpdateCategoryDetailsController(
                 objectMapper,
+                localValidatorFactoryBean,
                 loadCategoryDetailsUseCase,
                 updateCategoryDetailsUseCase);
     }

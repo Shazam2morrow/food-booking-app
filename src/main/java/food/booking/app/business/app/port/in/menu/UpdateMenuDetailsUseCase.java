@@ -1,5 +1,7 @@
 package food.booking.app.business.app.port.in.menu;
 
+import javax.validation.Valid;
+
 /**
  * Update menu details use case
  *
@@ -12,6 +14,6 @@ public interface UpdateMenuDetailsUseCase {
      *
      * @param command update menu details command
      */
-    void update(UpdateMenuDetailsCommand command);
+    void update(@Valid UpdateMenuDetailsCommand command);
 
 }

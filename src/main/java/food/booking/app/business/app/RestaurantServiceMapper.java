@@ -2,12 +2,13 @@ package food.booking.app.business.app;
 
 import food.booking.app.business.app.port.in.restaurant.CreateRestaurantCommand;
 import food.booking.app.business.app.port.in.restaurant.UpdateRestaurantDetailsCommand;
-import food.booking.app.business.app.port.out.restaurant.CheckRestaurantSlugPort;
 import food.booking.app.business.app.port.out.restaurant.CreateRestaurant;
 import food.booking.app.business.app.port.out.restaurant.UpdateRestaurantDetails;
-import food.booking.app.shared.size.SlugSize;
-import food.booking.app.storage.app.FileUriResolver;
-import lombok.RequiredArgsConstructor;
+import food.booking.app.business.domain.Restaurant;
+import food.booking.app.shared.SlugCheckable;
+import food.booking.app.shared.SlugGenerator;
+import food.booking.app.storage.app.FileUrlResolver;
+import food.booking.app.storage.app.port.in.exception.FileUrlNotFoundException;
 import org.apache.commons.text.RandomStringGenerator;
 
 /**
@@ -15,24 +16,33 @@ import org.apache.commons.text.RandomStringGenerator;
  *
  * @author shazam2morrow
  */
-@RequiredArgsConstructor
-class RestaurantServiceMapper {
+class RestaurantServiceMapper extends SlugGenerator {
 
-    private final FileUriResolver fileUriResolver;
+    private final FileUrlResolver fileUrlResolver;
 
-    private final CheckRestaurantSlugPort checkRestaurantSlugPort;
+    public RestaurantServiceMapper(SlugCheckable slugCheckable,
+                                   FileUrlResolver fileUrlResolver,
+                                   RandomStringGenerator randomStringGenerator) {
+        super(slugCheckable, randomStringGenerator);
+        this.fileUrlResolver = fileUrlResolver;
+    }
 
-    private final RandomStringGenerator randomStringGenerator;
-
+    /**
+     * Map to create restaurant
+     *
+     * @param command create restaurant command
+     * @return create restaurant
+     * @throws FileUrlNotFoundException if file url was not found
+     */
     CreateRestaurant mapToCreateRestaurant(CreateRestaurantCommand command) {
         return new CreateRestaurant(
                 generateSlug(),
                 command.getTitle(),
                 command.getAddress(),
                 command.getType(),
-                fileUriResolver.resolve(command.getBannerUrl()),
+                fileUrlResolver.resolve(command.getBannerUrl()),
                 command.getLocation(),
-                fileUriResolver.resolve(command.getImages()),
+                fileUrlResolver.resolve(command.getMedia()),
                 command.getShortTitle(),
                 command.getDescription(),
                 command.getAliases(),
@@ -41,14 +51,44 @@ class RestaurantServiceMapper {
                 command.getSchedule());
     }
 
+    /**
+     * Map to update restaurant details command
+     *
+     * @param restaurant restaurant
+     * @return update restaurant details command
+     */
+    UpdateRestaurantDetailsCommand mapToUpdateRestaurantDetailsCommand(Restaurant restaurant) {
+        return new UpdateRestaurantDetailsCommand(
+                restaurant.getSlug(),
+                restaurant.getTitle(),
+                restaurant.getAddress(),
+                restaurant.isActive(),
+                restaurant.getBannerUrl(),
+                restaurant.getMedia(),
+                restaurant.getShortTitle(),
+                restaurant.getLocation(),
+                restaurant.getDescription(),
+                restaurant.getAliases(),
+                restaurant.getAverageReceipt(),
+                restaurant.getCategories(),
+                restaurant.getSchedule());
+    }
+
+    /**
+     * Map to update restaurant details
+     *
+     * @param command update restaurant details command
+     * @return update restaurant details
+     * @throws FileUrlNotFoundException if file url was not found
+     */
     UpdateRestaurantDetails mapToUpdateRestaurantDetails(UpdateRestaurantDetailsCommand command) {
         return new UpdateRestaurantDetails(
                 command.getSlug(),
                 command.getTitle(),
-                fileUriResolver.resolve(command.getBannerUrl()),
+                fileUrlResolver.resolve(command.getBannerUrl()),
                 command.getAddress(),
                 command.getActive(),
-                fileUriResolver.resolve(command.getMedia()),
+                fileUrlResolver.resolve(command.getMedia()),
                 command.getLocation(),
                 command.getShortTitle(),
                 command.getDescription(),
@@ -57,19 +97,6 @@ class RestaurantServiceMapper {
                 command.getCategories(),
                 command.getSchedule()
         );
-    }
-
-    /**
-     * Generate unique slug for a new restaurant
-     *
-     * @return restaurant slug
-     */
-    private String generateSlug() {
-        String slug;
-        do {
-            slug = randomStringGenerator.generate(SlugSize.MAX);
-        } while (checkRestaurantSlugPort.checkBySlug(slug));
-        return slug;
     }
 
 }

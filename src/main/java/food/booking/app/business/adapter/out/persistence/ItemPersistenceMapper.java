@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 class ItemPersistenceMapper {
 
+    private final ItemPersistenceResolver itemPersistenceResolver;
+
     private final GroupPersistenceResolver groupPersistenceResolver;
 
     ItemJpaEntity mapToJpaEntity(CreateItem createItem) {
@@ -43,7 +45,8 @@ class ItemPersistenceMapper {
                 entity.getDescription());
     }
 
-    public void applyUpdatedDetails(ItemJpaEntity entity, UpdateItemDetails details) {
+    Item applyUpdatedDetails(UpdateItemDetails details) {
+        ItemJpaEntity entity = itemPersistenceResolver.resolve(details);
         entity.setPrice(details.price());
         entity.setTitle(details.title());
         entity.setActive(details.active());
@@ -52,6 +55,7 @@ class ItemPersistenceMapper {
         entity.setSortOrder(details.sortOrder());
         entity.setDescription(details.description());
         entity.setCookingTime(details.cookingTime());
+        return mapToDomainEntity(entity);
     }
 
 }

@@ -316,7 +316,7 @@ class RestaurantJpaEntity implements Slugable<String> {
 
     @PreUpdate
     @PrePersist
-    void sortFields() {
+    void processFields() {
         sortAliases();
         convertToImage();
     }
@@ -334,6 +334,8 @@ class RestaurantJpaEntity implements Slugable<String> {
                     .sorted(Comparator.naturalOrder())
                     .map(URI::toString)
                     .collect(Collectors.toList());
+        } else {
+            images = new ArrayList<>();
         }
     }
 

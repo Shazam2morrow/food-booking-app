@@ -1,11 +1,8 @@
 package food.booking.app.business.adapter.out.persistence;
 
-import food.booking.app.business.app.port.out.restaurant.UpdateRestaurantDetails;
-import food.booking.app.business.domain.Restaurant;
+import food.booking.app.business.app.port.in.restaurant.exception.RestaurantNotFoundException;
+import food.booking.app.shared.Slugable;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.Validate;
-
-import javax.persistence.EntityNotFoundException;
 
 /**
  * Restaurant persistence resolver
@@ -17,47 +14,27 @@ class RestaurantPersistenceResolver {
 
     private final RestaurantRepository restaurantRepository;
 
-    RestaurantJpaEntity resolve(Restaurant restaurant) {
-        return resolve(requireValid(restaurant).getSlug());
-    }
-
-    RestaurantJpaEntity resolve(UpdateRestaurantDetails details) {
-        return resolve(requireValid(details).slug());
-    }
-
-    RestaurantJpaEntity resolve(String restaurantSlug) {
-        return restaurantRepository.findBySlug(requireValidSlug(restaurantSlug))
-                .orElseThrow(() -> new EntityNotFoundException("Restaurant was not found " + restaurantSlug));
-    }
-
     /**
-     * Validate object
+     * Resolve restaurant jpa entity
      *
-     * @param restaurant restaurant
-     * @return validate object
+     * @param slugable slugable
+     * @return resolved restaurant jpa entity
+     * @throws RestaurantNotFoundException restaurant was not found
      */
-    private Restaurant requireValid(Restaurant restaurant) {
-        return Validate.notNull(restaurant, "restaurant can not be null");
+    RestaurantJpaEntity resolve(Slugable<String> slugable) {
+        return resolve(slugable.getSlug());
     }
 
     /**
-     * Validate object
-     *
-     * @param details update restaurant details
-     * @return validate object
-     */
-    private UpdateRestaurantDetails requireValid(UpdateRestaurantDetails details) {
-        return Validate.notNull(details, "updateRestaurantDetails can not be null");
-    }
-
-    /**
-     * Validate restaurant slug
+     * Resolve restaurant jpa entity
      *
      * @param restaurantSlug restaurant slug
-     * @return validated restaurant slug
+     * @return resolved restaurant jpa entity
+     * @throws RestaurantNotFoundException if restaurant was not found
      */
-    private String requireValidSlug(String restaurantSlug) {
-        return Validate.notBlank(restaurantSlug, "restaurantSlug can not be blank");
+    RestaurantJpaEntity resolve(String restaurantSlug) {
+        return restaurantRepository.findBySlug(restaurantSlug)
+                .orElseThrow(() -> new RestaurantNotFoundException(restaurantSlug));
     }
 
 }

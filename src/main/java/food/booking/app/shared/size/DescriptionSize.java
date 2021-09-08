@@ -8,6 +8,7 @@ package food.booking.app.shared.size;
 public interface DescriptionSize {
 
     int MIN = 10;
+
     int MAX = 4096;
 
 }

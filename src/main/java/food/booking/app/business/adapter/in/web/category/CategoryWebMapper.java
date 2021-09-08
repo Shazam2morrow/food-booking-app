@@ -2,9 +2,6 @@ package food.booking.app.business.adapter.in.web.category;
 
 import food.booking.app.business.app.port.in.category.CreateCategoryCommand;
 
-import javax.annotation.Nullable;
-import java.util.Objects;
-
 /**
  * Category web mapper
  *
@@ -12,12 +9,17 @@ import java.util.Objects;
  */
 class CategoryWebMapper {
 
-    @Nullable
-    CreateCategoryCommand mapToCommand(CreateCategoryModel model) {
-        if (Objects.isNull(model)) {
-            return null;
-        }
-        return new CreateCategoryCommand(model.title(), model.iconUrl(), model.sortOrder());
+    /**
+     * Map to command
+     *
+     * @param category category
+     * @return create category command
+     */
+    CreateCategoryCommand mapToCommand(Category category) {
+        return new CreateCategoryCommand(
+                category.iconUrl(),
+                category.title(),
+                category.sortOrder());
     }
 
 }

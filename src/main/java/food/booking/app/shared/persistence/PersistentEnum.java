@@ -7,6 +7,11 @@ package food.booking.app.shared.persistence;
  */
 public interface PersistentEnum {
 
+    /**
+     * Get serial identifier
+     *
+     * @return serial identifier
+     */
     short getId();
 
 }

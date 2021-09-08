@@ -1,7 +1,10 @@
 package food.booking.app.shared.validation;
 
+import food.booking.app.shared.size.DescriptionSize;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
+import javax.validation.constraints.Size;
 import java.lang.annotation.*;
 
 /**
@@ -11,11 +14,12 @@ import java.lang.annotation.*;
  */
 @Documented
 @Target({ElementType.FIELD})
+@Constraint(validatedBy = {})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = DescriptionValidator.class)
+@Size(min = DescriptionSize.MIN, max = DescriptionSize.MAX, message = "description.invalid.size")
 public @interface Description {
 
-    String message() default "{Description.invalid}";
+    String message() default "";
 
     Class<?>[] groups() default {};
 

@@ -1,7 +1,6 @@
 package food.booking.app.business.adapter.out.persistence;
 
-import food.booking.app.shared.domain.LocationMapper;
-import org.locationtech.jts.geom.GeometryFactory;
+import food.booking.app.shared.domain.mapper.LocationMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,16 +13,18 @@ import org.springframework.context.annotation.Configuration;
 class RestaurantPersistenceAdapterConfig {
 
     @Bean
-    RestaurantSlugpersistenceAdapter restaurantpersistenceAdapter(
+    RestaurantPersistenceAdapter restaurantPersistenceAdapter(
             RestaurantRepository restaurantRepository,
+            CategoryPersistenceMapper categoryPersistenceMapper,
             RestaurantPersistenceMapper restaurantPersistenceMapper,
             RestaurantScheduleRepository restaurantScheduleRepository,
             RestaurantCategoryRepository restaurantCategoryRepository,
             RestaurantSchedulePersistenceMapper restaurantSchedulePersistenceMapper,
             RestaurantCategoryPersistenceMapper restaurantCategoryPersistenceMapper,
             RestaurantPersistenceResolver restaurantPersistenceResolver) {
-        return new RestaurantSlugpersistenceAdapter(
+        return new RestaurantPersistenceAdapter(
                 restaurantRepository,
+                categoryPersistenceMapper,
                 restaurantPersistenceMapper,
                 restaurantScheduleRepository,
                 restaurantCategoryRepository,
@@ -34,35 +35,28 @@ class RestaurantPersistenceAdapterConfig {
     }
 
     @Bean
-    LocationMapper locationMapper(GeometryFactory geometryFactory) {
-        return new LocationMapper(geometryFactory);
+    RestaurantPersistenceMapper restaurantPersistenceMapper(
+            LocationMapper locationMapper,
+            RestaurantPersistenceResolver restaurantPersistenceResolver) {
+        return new RestaurantPersistenceMapper(locationMapper, restaurantPersistenceResolver);
     }
 
     @Bean
-    RestaurantPersistenceMapper restaurantpersistenceMapper(LocationMapper locationMapper) {
-        return new RestaurantPersistenceMapper(locationMapper);
+    RestaurantSchedulePersistenceMapper restaurantSchedulePersistenceMapper(
+            RestaurantPersistenceResolver restaurantPersistenceResolver) {
+        return new RestaurantSchedulePersistenceMapper(restaurantPersistenceResolver);
     }
 
     @Bean
-    RestaurantSchedulePersistenceMapper restaurantSchedulepersistenceMapper() {
-        return new RestaurantSchedulePersistenceMapper();
-    }
-
-    @Bean
-    RestaurantPersistenceResolver restaurantpersistenceResolver(RestaurantRepository restaurantRepository) {
+    RestaurantPersistenceResolver restaurantPersistenceResolver(RestaurantRepository restaurantRepository) {
         return new RestaurantPersistenceResolver(restaurantRepository);
     }
 
     @Bean
-    CategoryPersistenceResolver categorypersistenceResolver(CategoryRepository categoryRepository) {
-        return new CategoryPersistenceResolver(categoryRepository);
-    }
-
-    @Bean
-    RestaurantCategoryPersistenceMapper restaurantCategorypersistenceMapper(
-            CategoryPersistenceMapper categoryPersistenceMapper,
-            CategoryPersistenceResolver categoryPersistenceResolver) {
-        return new RestaurantCategoryPersistenceMapper(categoryPersistenceMapper, categoryPersistenceResolver);
+    RestaurantCategoryPersistenceMapper restaurantCategoryPersistenceMapper(
+            CategoryPersistenceResolver categoryPersistenceResolver,
+            RestaurantPersistenceResolver restaurantPersistenceResolver) {
+        return new RestaurantCategoryPersistenceMapper(categoryPersistenceResolver, restaurantPersistenceResolver);
     }
 
 }

@@ -4,7 +4,6 @@ import food.booking.app.business.adapter.in.web.menu.MenuModel;
 import food.booking.app.business.adapter.in.web.menu.MenuModelAssembler;
 import food.booking.app.business.app.port.in.group.CreateGroupCommand;
 import food.booking.app.business.app.port.in.group.CreateGroupUseCase;
-import food.booking.app.business.domain.Group;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Link;
@@ -48,7 +47,7 @@ class CreateGroupController {
      * @return group model
      */
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaTypes.HAL_JSON_VALUE})
-    ResponseEntity<RepresentationModel<?>> createGroup(@Valid @RequestBody CreateGroupModel input) {
+    ResponseEntity<RepresentationModel<?>> createGroup(@Valid @RequestBody Group input) {
         log.debug("REST request to create group: {}", input);
         GroupModel group = executeCreateGroup(input);
         Link self = group.getRequiredLink(SELF);
@@ -63,9 +62,9 @@ class CreateGroupController {
      * @param input create group model
      * @return group model
      */
-    private GroupModel executeCreateGroup(CreateGroupModel input) {
+    private GroupModel executeCreateGroup(Group input) {
         CreateGroupCommand command = groupWebMapper.mapToCommand(input);
-        Group group = createGroupUseCase.create(command);
+        food.booking.app.business.domain.Group group = createGroupUseCase.create(command);
         return groupModelAssembler.toModel(group);
     }
 

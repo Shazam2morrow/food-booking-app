@@ -8,6 +8,7 @@ package food.booking.app.shared.size;
 public interface ShortTitleSize {
 
     int MIN = 3;
+
     int MAX = 50;
 
 }

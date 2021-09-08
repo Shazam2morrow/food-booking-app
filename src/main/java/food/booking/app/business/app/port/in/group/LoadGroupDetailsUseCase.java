@@ -1,5 +1,6 @@
 package food.booking.app.business.app.port.in.group;
 
+import food.booking.app.business.app.port.in.group.exception.GroupNotFoundException;
 import food.booking.app.business.domain.Group;
 
 /**
@@ -14,6 +15,7 @@ public interface LoadGroupDetailsUseCase {
      *
      * @param groupSlug group slug
      * @return group details
+     * @throws GroupNotFoundException if group was not found
      */
     Group loadDetailsBySlug(String groupSlug);
 

@@ -1,7 +1,11 @@
 package food.booking.app.shared.validation;
 
+import food.booking.app.shared.size.SlugSize;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.lang.annotation.*;
 
 /**
@@ -11,11 +15,13 @@ import java.lang.annotation.*;
  */
 @Documented
 @Target({ElementType.FIELD})
+@Constraint(validatedBy = {})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = SlugValidator.class)
+@NotNull(message = "slug.notnull")
+@Size(min = SlugSize.MAX, max = SlugSize.MAX, message = "slug.size.invalid")
 public @interface Slug {
 
-    String message() default "{Slug.invalid}";
+    String message() default "";
 
     Class<?>[] groups() default {};
 

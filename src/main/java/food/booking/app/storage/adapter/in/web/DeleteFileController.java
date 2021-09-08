@@ -3,11 +3,8 @@ package food.booking.app.storage.adapter.in.web;
 import food.booking.app.storage.app.port.in.DeleteFileUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * File delete controller
@@ -26,13 +23,12 @@ class DeleteFileController {
      * Delete file
      *
      * @param fileSlug file slug
-     * @return no content
      */
     @DeleteMapping(path = "/{fileSlug}")
-    ResponseEntity<Void> deleteFile(@PathVariable String fileSlug) {
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    void deleteFile(@PathVariable String fileSlug) {
         log.debug("REST request to delete file: {}", fileSlug);
         deleteFileUseCase.deleteBySlug(fileSlug);
-        return ResponseEntity.noContent().build();
     }
 
 }

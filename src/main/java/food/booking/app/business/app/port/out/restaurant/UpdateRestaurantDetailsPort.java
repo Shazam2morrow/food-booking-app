@@ -8,7 +8,7 @@ package food.booking.app.business.app.port.out.restaurant;
 public interface UpdateRestaurantDetailsPort {
 
     /**
-     * Update restaurant updateRestaurantDetails
+     * Update restaurant details
      *
      * @param updateRestaurantDetails update restaurant details
      */

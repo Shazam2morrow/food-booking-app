@@ -12,23 +12,23 @@ class RestaurantWebMapper {
     /**
      * Map to command
      *
-     * @param model create restaurant model
+     * @param restaurant restaurant
      * @return create restaurant command
      */
-    CreateRestaurantCommand mapToCommand(CreateRestaurantModel model) {
+    CreateRestaurantCommand mapToCommand(Restaurant restaurant) {
         return new CreateRestaurantCommand(
-                model.title(),
-                model.address(),
-                model.type(),
-                model.schedule(),
-                model.bannerUrl(),
-                model.media(),
-                model.shortTitle(),
-                model.location(),
-                model.description(),
-                model.aliases(),
-                model.averageReceipt(),
-                model.categories());
+                restaurant.title(),
+                restaurant.address(),
+                restaurant.type(),
+                restaurant.schedule(),
+                restaurant.bannerUrl(),
+                restaurant.media(),
+                restaurant.shortTitle(),
+                restaurant.location(),
+                restaurant.description(),
+                restaurant.aliases(),
+                restaurant.averageReceipt(),
+                restaurant.categories());
     }
 
 }

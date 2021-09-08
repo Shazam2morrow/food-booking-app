@@ -7,6 +7,7 @@ import food.booking.app.business.app.port.in.menu.*;
 import food.booking.app.business.app.port.in.restaurant.LoadRestaurantDetailsUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * Menu web adapter configuration
@@ -50,12 +51,14 @@ class MenuWebAdapterConfig {
     UpdateMenuDetailsController updateMenuDetailsController(
             ObjectMapper objectMapper,
             LoadMenuDetailsUseCase loadMenuDetailsUseCase,
-            UpdateMenuDetailsUseCase updateMenuDetailsUseCase
+            UpdateMenuDetailsUseCase updateMenuDetailsUseCase,
+            LocalValidatorFactoryBean localValidatorFactoryBean
     ) {
         return new UpdateMenuDetailsController(
                 objectMapper,
                 loadMenuDetailsUseCase,
-                updateMenuDetailsUseCase);
+                updateMenuDetailsUseCase,
+                localValidatorFactoryBean);
     }
 
     @Bean

@@ -1,12 +1,14 @@
 package food.booking.app.business.app.port.out.restaurant;
 
 import food.booking.app.business.domain.Category;
+import food.booking.app.shared.Slugable;
 import food.booking.app.shared.domain.DailySchedule;
 import food.booking.app.shared.domain.Location;
 
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Update restaurant details
@@ -25,5 +27,14 @@ public record UpdateRestaurantDetails(String slug,
                                       List<String> aliases,
                                       BigDecimal averageReceipt,
                                       List<Category> categories,
-                                      List<DailySchedule> schedule) {
+                                      List<DailySchedule> schedule) implements Slugable<String> {
+
+    public boolean hasCategories() {
+        return Objects.nonNull(categories) && !categories.isEmpty();
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
 }

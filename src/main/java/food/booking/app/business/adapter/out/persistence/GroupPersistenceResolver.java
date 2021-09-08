@@ -1,11 +1,8 @@
 package food.booking.app.business.adapter.out.persistence;
 
-import food.booking.app.business.app.port.out.group.UpdateGroupDetails;
-import food.booking.app.business.domain.Group;
+import food.booking.app.business.app.port.in.group.exception.GroupNotFoundException;
+import food.booking.app.shared.Slugable;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.Validate;
-
-import javax.persistence.EntityNotFoundException;
 
 /**
  * Group persistence resolver
@@ -17,20 +14,27 @@ class GroupPersistenceResolver {
 
     private final GroupRepository groupRepository;
 
-    GroupJpaEntity resolve(Group group) {
-        Validate.notNull(group, "group can not be null");
-        return resolve(group.getSlug());
+    /**
+     * Resolve group jpa entity
+     *
+     * @param slugable slugable
+     * @return resolved group jpa entity
+     * @throws GroupNotFoundException if group was not found
+     */
+    GroupJpaEntity resolve(Slugable<String> slugable) {
+        return resolve(slugable.getSlug());
     }
 
-    GroupJpaEntity resolve(UpdateGroupDetails updateGroupDetails) {
-        Validate.notNull(updateGroupDetails, "updateMenuGroupDetails can not be null");
-        return resolve(updateGroupDetails.slug());
-    }
-
-    GroupJpaEntity resolve(String slug) {
-        Validate.notBlank(slug, "slug can not be blank");
-        return groupRepository.findBySlug(slug)
-                .orElseThrow(() -> new EntityNotFoundException("Menu group was not found " + slug));
+    /**
+     * Resolve entity
+     *
+     * @param groupSlug group slug
+     * @return group entity
+     * @throws GroupNotFoundException if group was not found
+     */
+    GroupJpaEntity resolve(String groupSlug) {
+        return groupRepository.findBySlug(groupSlug)
+                .orElseThrow(() -> new GroupNotFoundException(groupSlug));
     }
 
 }

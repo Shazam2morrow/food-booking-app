@@ -8,9 +8,10 @@ import food.booking.app.business.app.port.in.category.LoadCategoryDetailsUseCase
 import food.booking.app.business.app.port.in.category.UpdateCategoryDetailsCommand;
 import food.booking.app.business.app.port.in.category.UpdateCategoryDetailsUseCase;
 import food.booking.app.business.domain.Category;
-import food.booking.app.shared.PatchApplier;
+import food.booking.app.shared.web.PatchApplier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -28,9 +29,10 @@ class UpdateCategoryDetailsController extends PatchApplier<Category, UpdateCateg
     private final UpdateCategoryDetailsUseCase updateCategoryDetailsUseCase;
 
     UpdateCategoryDetailsController(ObjectMapper objectMapper,
+                                    LocalValidatorFactoryBean localValidatorFactoryBean,
                                     LoadCategoryDetailsUseCase loadCategoryDetailsUseCase,
                                     UpdateCategoryDetailsUseCase updateCategoryDetailsUseCase) {
-        super(objectMapper);
+        super(localValidatorFactoryBean, objectMapper);
         this.loadCategoryDetailsUseCase = loadCategoryDetailsUseCase;
         this.updateCategoryDetailsUseCase = updateCategoryDetailsUseCase;
     }
@@ -44,7 +46,7 @@ class UpdateCategoryDetailsController extends PatchApplier<Category, UpdateCateg
      * @throws JsonProcessingException if json could not be processed
      */
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @PatchMapping(path = "/{categorySlug}", consumes = "application/json-patch+json")
+    @PatchMapping(path = "/{categorySlug}", consumes = {PATCH_TYPE})
     void updateCategoryDetails(
             @PathVariable String categorySlug,
             @RequestBody JsonPatch patch) throws JsonPatchException, JsonProcessingException {

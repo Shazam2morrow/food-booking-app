@@ -3,7 +3,7 @@ package food.booking.app.business.adapter.out.persistence;
 import food.booking.app.business.app.port.out.restaurant.CreateRestaurant;
 import food.booking.app.business.app.port.out.restaurant.UpdateRestaurantDetails;
 import food.booking.app.business.domain.Restaurant;
-import food.booking.app.shared.domain.LocationMapper;
+import food.booking.app.shared.domain.mapper.LocationMapper;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -16,6 +16,14 @@ class RestaurantPersistenceMapper {
 
     private final LocationMapper locationMapper;
 
+    private final RestaurantPersistenceResolver restaurantPersistenceResolver;
+
+    /**
+     * Map to restaurant jpa entity
+     *
+     * @param createRestaurant create restaurant
+     * @return restaurant jpa entity
+     */
     RestaurantJpaEntity mapToJpaEntity(CreateRestaurant createRestaurant) {
         return new RestaurantJpaEntity(
                 createRestaurant.slug(),
@@ -31,6 +39,12 @@ class RestaurantPersistenceMapper {
                 createRestaurant.averageReceipt());
     }
 
+    /**
+     * Map to restaurant domain entity
+     *
+     * @param entity restaurant jpa entity
+     * @return restaurant domain entity
+     */
     Restaurant mapToDomainEntity(RestaurantJpaEntity entity) {
         var restaurant = new Restaurant();
         restaurant.setSlug(entity.getSlug());
@@ -53,10 +67,17 @@ class RestaurantPersistenceMapper {
         return restaurant;
     }
 
-    void applyUpdatedDetails(RestaurantJpaEntity entity, UpdateRestaurantDetails details) {
+    /**
+     * Apply updated details
+     *
+     * @param details update restaurant details
+     * @return restaurant with updated details
+     */
+    Restaurant applyUpdatedDetails(UpdateRestaurantDetails details) {
+        RestaurantJpaEntity entity = restaurantPersistenceResolver.resolve(details);
         entity.setTitle(details.title());
-        entity.setActive(details.active());
         entity.setMedia(details.media());
+        entity.setActive(details.active());
         entity.setAddress(details.address());
         entity.setAliases(details.aliases());
         entity.setBannerUrl(details.bannerUrl());
@@ -64,6 +85,7 @@ class RestaurantPersistenceMapper {
         entity.setDescription(details.description());
         entity.setAverageReceipt(details.averageReceipt());
         entity.setLocation(locationMapper.mapToPoint(details.location()));
+        return mapToDomainEntity(entity);
     }
 
 }

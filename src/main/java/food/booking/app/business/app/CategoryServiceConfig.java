@@ -1,7 +1,7 @@
 package food.booking.app.business.app;
 
 import food.booking.app.business.app.port.out.category.*;
-import food.booking.app.storage.app.FileUriResolver;
+import food.booking.app.storage.app.FileUrlResolver;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,11 +29,13 @@ class CategoryServiceConfig {
     }
 
     @Bean
-    CategoryServiceMapper categoryServiceMapper(
-            FileUriResolver fileUriResolver,
-            CheckCategorySlugPort checkCategorySlugPort,
-            RandomStringGenerator randomStringGenerator) {
-        return new CategoryServiceMapper(fileUriResolver, checkCategorySlugPort, randomStringGenerator);
+    CategoryServiceMapper categoryServiceMapper(FileUrlResolver fileUrlResolver,
+                                                CheckCategorySlugPort checkCategorySlugPort,
+                                                RandomStringGenerator randomStringGenerator) {
+        return new CategoryServiceMapper(
+                checkCategorySlugPort,
+                fileUrlResolver,
+                randomStringGenerator);
     }
 
 }

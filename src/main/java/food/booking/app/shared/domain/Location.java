@@ -1,10 +1,10 @@
 package food.booking.app.shared.domain;
 
-import food.booking.app.shared.SelfValidate;
 import lombok.Getter;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 
 /**
  * Location
@@ -12,20 +12,27 @@ import javax.validation.constraints.PositiveOrZero;
  * @author shazam2morrow
  */
 @Getter
-public class Location extends SelfValidate<Location> {
+public class Location {
 
-    @NotNull(message = "longitude can not be null")
-    @PositiveOrZero(message = "longitude must be positive")
+    /**
+     * Longitude
+     */
+    @NotNull(message = "longitude.notnull")
+    @Min(value = -180, message = "longitude.invalid.min")
+    @Max(value = 80, message = "longitude.invalid.max")
     private final Double longitude;
 
-    @NotNull(message = "latitude can not be null")
-    @PositiveOrZero(message = "latitude must be positive")
+    /**
+     * Latitude
+     */
+    @NotNull(message = "latitude.notnull")
+    @Min(value = -90, message = "latitude.invalid.min")
+    @Max(value = 90, message = "latitude.invalid.max")
     private final Double latitude;
 
     public Location(Double longitude, Double latitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-        selfValidate();
     }
 
 }

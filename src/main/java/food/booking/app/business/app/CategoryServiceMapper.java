@@ -2,13 +2,13 @@ package food.booking.app.business.app;
 
 import food.booking.app.business.app.port.in.category.CreateCategoryCommand;
 import food.booking.app.business.app.port.in.category.UpdateCategoryDetailsCommand;
-import food.booking.app.business.app.port.out.category.CheckCategorySlugPort;
 import food.booking.app.business.app.port.out.category.CreateCategory;
 import food.booking.app.business.app.port.out.category.UpdateCategoryDetails;
 import food.booking.app.business.domain.Category;
-import food.booking.app.shared.size.SlugSize;
-import food.booking.app.storage.app.FileUriResolver;
-import lombok.RequiredArgsConstructor;
+import food.booking.app.shared.SlugCheckable;
+import food.booking.app.shared.SlugGenerator;
+import food.booking.app.storage.app.FileUrlResolver;
+import food.booking.app.storage.app.port.in.exception.FileUrlNotFoundException;
 import org.apache.commons.text.RandomStringGenerator;
 
 /**
@@ -16,52 +16,62 @@ import org.apache.commons.text.RandomStringGenerator;
  *
  * @author shazam2morrow
  */
-@RequiredArgsConstructor
-class CategoryServiceMapper {
+class CategoryServiceMapper extends SlugGenerator {
 
-    private final FileUriResolver fileUriResolver;
+    private final FileUrlResolver fileUrlResolver;
 
-    private final CheckCategorySlugPort checkCategorySlugPort;
+    public CategoryServiceMapper(
+            SlugCheckable slugCheckable,
+            FileUrlResolver fileUrlResolver,
+            RandomStringGenerator randomStringGenerator) {
+        super(slugCheckable, randomStringGenerator);
+        this.fileUrlResolver = fileUrlResolver;
+    }
 
-    private final RandomStringGenerator randomStringGenerator;
-
+    /**
+     * Map to create category
+     *
+     * @param command create category command
+     * @return create category
+     * @throws FileUrlNotFoundException if icon was not found
+     */
     CreateCategory mapToCreateCategory(CreateCategoryCommand command) {
         return new CreateCategory(
                 generateSlug(),
                 command.getTitle(),
                 command.getSortOrder(),
-                fileUriResolver.resolve(command.getIconUrl()));
+                fileUrlResolver.resolve(command.getIconUrl()));
     }
 
+    /**
+     * Map to update category details
+     *
+     * @param command update category details command
+     * @return update category details
+     * @throws FileUrlNotFoundException if icon was not found
+     */
     UpdateCategoryDetails mapToUpdateCategoryDetails(UpdateCategoryDetailsCommand command) {
         return new UpdateCategoryDetails(
-                command.getSlug(),
-                command.getTitle(),
-                command.getSortOrder(),
+                command.slug(),
+                command.title(),
+                command.sortOrder(),
                 command.isActive(),
-                fileUriResolver.resolve(command.getIconUrl()));
+                fileUrlResolver.resolve(command.iconUrl()));
     }
 
+    /**
+     * Map to update category details command
+     *
+     * @param category category
+     * @return update category details command
+     */
     UpdateCategoryDetailsCommand mapToUpdateCategoryDetailsCommand(Category category) {
         return new UpdateCategoryDetailsCommand(
                 category.getSlug(),
                 category.getTitle(),
+                category.getIconUrl(),
                 category.isActive(),
-                category.getSortOrder(),
-                category.getIconUrl());
-    }
-
-    /**
-     * Generate unique slug for a new category
-     *
-     * @return category slug
-     */
-    private String generateSlug() {
-        String slug;
-        do {
-            slug = randomStringGenerator.generate(SlugSize.MAX);
-        } while (checkCategorySlugPort.checkBySlug(slug));
-        return slug;
+                category.getSortOrder());
     }
 
 }

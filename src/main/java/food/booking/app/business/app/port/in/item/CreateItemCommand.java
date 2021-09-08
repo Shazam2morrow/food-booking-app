@@ -1,14 +1,11 @@
 package food.booking.app.business.app.port.in.item;
 
 import food.booking.app.business.domain.Group;
-import food.booking.app.shared.SelfValidate;
-import food.booking.app.shared.validation.Description;
-import food.booking.app.shared.validation.Title;
+import food.booking.app.shared.validation.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import java.net.URI;
 
@@ -18,7 +15,8 @@ import java.net.URI;
  * @author shazam2morrow
  */
 @Getter
-public class CreateItemCommand extends SelfValidate<CreateItemCommand> {
+@RequiredArgsConstructor
+public class CreateItemCommand {
 
     @Title
     private final String title;
@@ -26,45 +24,27 @@ public class CreateItemCommand extends SelfValidate<CreateItemCommand> {
     @Description
     private final String description;
 
-    @NotNull(message = "group can not be null")
+    @NotNull(message = "item.group.notnull")
     private final Group group;
 
-    @Nullable
-    @PositiveOrZero(message = "price can not be negative")
+    @Price
     private final BigDecimal price;
 
-    @Nullable
-    @PositiveOrZero(message = "calories can not be negative")
+    @Calories
     private final Integer calories;
 
-    @Nullable
-    @PositiveOrZero(message = "sortOrder can not be negative")
+    @SortOrder
     private final Integer sortOrder;
 
-    @Nullable
-    @PositiveOrZero(message = "cookingTime can not be negative")
+    @CookingTime
     private final Short cookingTime;
 
-    @Nullable
+    @FileUrlOrNull
     private final URI bannerUrl;
 
-    public CreateItemCommand(Group group,
-                             String title,
-                             @Nullable URI bannerUrl,
-                             @Nullable BigDecimal price,
-                             @Nullable Integer calories,
-                             @Nullable Integer sortOrder,
-                             @Nullable Short cookingTime,
-                             @Nullable String description) {
-        this.title = title;
-        this.group = group;
-        this.price = price;
-        this.calories = calories;
-        this.bannerUrl = bannerUrl;
-        this.sortOrder = sortOrder;
-        this.cookingTime = cookingTime;
-        this.description = description;
-        selfValidate();
+    @Override
+    public String toString() {
+        return "item";
     }
 
 }

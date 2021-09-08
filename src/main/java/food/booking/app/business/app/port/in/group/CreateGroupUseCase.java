@@ -2,6 +2,8 @@ package food.booking.app.business.app.port.in.group;
 
 import food.booking.app.business.domain.Group;
 
+import javax.validation.Valid;
+
 /**
  * Create group use case
  *
@@ -15,6 +17,6 @@ public interface CreateGroupUseCase {
      * @param command create group command
      * @return group
      */
-    Group create(CreateGroupCommand command);
+    Group create(@Valid CreateGroupCommand command);
 
 }

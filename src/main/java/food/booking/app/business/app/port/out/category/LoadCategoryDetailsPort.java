@@ -1,5 +1,6 @@
 package food.booking.app.business.app.port.out.category;
 
+import food.booking.app.business.app.port.in.category.exception.CategoryNotFoundException;
 import food.booking.app.business.domain.Category;
 
 /**
@@ -14,6 +15,7 @@ public interface LoadCategoryDetailsPort {
      *
      * @param categorySlug category slug
      * @return category details
+     * @throws CategoryNotFoundException if category was not found
      */
     Category loadDetailsBySlug(String categorySlug);
 

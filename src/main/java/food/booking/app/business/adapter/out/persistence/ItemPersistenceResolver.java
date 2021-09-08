@@ -1,10 +1,8 @@
 package food.booking.app.business.adapter.out.persistence;
 
-import food.booking.app.business.app.port.out.item.UpdateItemDetails;
+import food.booking.app.business.app.port.in.item.exception.ItemNotFoundException;
+import food.booking.app.shared.Slugable;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.Validate;
-
-import javax.persistence.EntityNotFoundException;
 
 /**
  * Item persistence resolver
@@ -16,33 +14,27 @@ class ItemPersistenceResolver {
 
     private final ItemRepository itemRepository;
 
-    ItemJpaEntity resolve(UpdateItemDetails updateItemDetails) {
-        return resolve(requireValid(updateItemDetails).slug());
+    /**
+     * Resolve item jpa entity
+     *
+     * @param slugable slugable
+     * @return resolved item jpa entity
+     * @throws ItemNotFoundException if item was not found
+     */
+    ItemJpaEntity resolve(Slugable<String> slugable) {
+        return resolve(slugable.getSlug());
     }
 
+    /**
+     * Resolve item jpa entity
+     *
+     * @param itemSlug item slug
+     * @return resolved item jpa entity
+     * @throws ItemNotFoundException if item was not found
+     */
     ItemJpaEntity resolve(String itemSlug) {
-        return itemRepository.findBySlug(requireValidSlug(itemSlug))
-                .orElseThrow(() -> new EntityNotFoundException("Item was not found " + itemSlug));
-    }
-
-    /**
-     * Validate slug
-     *
-     * @param slug slug
-     * @return validated slug
-     */
-    private String requireValidSlug(String slug) {
-        return Validate.notBlank(slug, "slug can not be blank");
-    }
-
-    /**
-     * Validate object
-     *
-     * @param details update item details
-     * @return validated object
-     */
-    private UpdateItemDetails requireValid(UpdateItemDetails details) {
-        return Validate.notNull(details, "updateItemDetails can not be null");
+        return itemRepository.findBySlug(itemSlug)
+                .orElseThrow(() -> new ItemNotFoundException(itemSlug));
     }
 
 }

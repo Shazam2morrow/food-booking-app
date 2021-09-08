@@ -8,9 +8,10 @@ import food.booking.app.business.app.port.in.menu.LoadMenuDetailsUseCase;
 import food.booking.app.business.app.port.in.menu.UpdateMenuDetailsCommand;
 import food.booking.app.business.app.port.in.menu.UpdateMenuDetailsUseCase;
 import food.booking.app.business.domain.Menu;
-import food.booking.app.shared.PatchApplier;
+import food.booking.app.shared.web.PatchApplier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -29,8 +30,9 @@ class UpdateMenuDetailsController extends PatchApplier<Menu, UpdateMenuDetailsCo
 
     public UpdateMenuDetailsController(ObjectMapper objectMapper,
                                        LoadMenuDetailsUseCase loadMenuDetailsUseCase,
-                                       UpdateMenuDetailsUseCase updateMenuDetailsUseCase) {
-        super(objectMapper);
+                                       UpdateMenuDetailsUseCase updateMenuDetailsUseCase,
+                                       LocalValidatorFactoryBean localValidatorFactoryBean) {
+        super(localValidatorFactoryBean, objectMapper);
         this.loadMenuDetailsUseCase = loadMenuDetailsUseCase;
         this.updateMenuDetailsUseCase = updateMenuDetailsUseCase;
     }
