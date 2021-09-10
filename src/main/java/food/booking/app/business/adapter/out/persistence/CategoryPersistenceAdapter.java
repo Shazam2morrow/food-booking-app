@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 class CategoryPersistenceAdapter implements CreateCategoryPort,
         LoadCategoryListPort,
-        CheckCategorySlugPort,
+        CheckCategoryCanCheckSlugPort,
         LoadCategoryDetailsPort,
         UpdateCategoryDetailsPort {
 

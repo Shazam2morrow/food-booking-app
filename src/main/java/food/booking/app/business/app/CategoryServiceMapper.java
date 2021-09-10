@@ -5,7 +5,7 @@ import food.booking.app.business.app.port.in.category.UpdateCategoryDetailsComma
 import food.booking.app.business.app.port.out.category.CreateCategory;
 import food.booking.app.business.app.port.out.category.UpdateCategoryDetails;
 import food.booking.app.business.domain.Category;
-import food.booking.app.shared.SlugCheckable;
+import food.booking.app.shared.CanCheckSlug;
 import food.booking.app.shared.SlugGenerator;
 import food.booking.app.storage.app.FileUrlResolver;
 import food.booking.app.storage.app.port.in.exception.FileNotFoundException;
@@ -21,10 +21,10 @@ class CategoryServiceMapper extends SlugGenerator {
     private final FileUrlResolver fileUrlResolver;
 
     public CategoryServiceMapper(
-            SlugCheckable slugCheckable,
+            CanCheckSlug canCheckSlug,
             FileUrlResolver fileUrlResolver,
             RandomStringGenerator randomStringGenerator) {
-        super(slugCheckable, randomStringGenerator);
+        super(canCheckSlug, randomStringGenerator);
         this.fileUrlResolver = fileUrlResolver;
     }
 

@@ -13,7 +13,7 @@ import org.apache.commons.text.RandomStringGenerator;
 @RequiredArgsConstructor
 public abstract class SlugGenerator {
 
-    protected final SlugCheckable slugCheckable;
+    protected final CanCheckSlug canCheckSlug;
 
     protected final RandomStringGenerator randomStringGenerator;
 
@@ -32,7 +32,7 @@ public abstract class SlugGenerator {
         String slug;
         do {
             slug = randomStringGenerator.generate(SlugSize.MAX);
-        } while (StringUtils.startsWithAny(slug, CANT_START_WITH) || slugCheckable.check(slug));
+        } while (StringUtils.startsWithAny(slug, CANT_START_WITH) || canCheckSlug.check(slug));
         return slug;
     }
 

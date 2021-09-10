@@ -30,7 +30,7 @@ class CategoryServiceConfig {
 
     @Bean
     CategoryServiceMapper categoryServiceMapper(FileUrlResolver fileUrlResolver,
-                                                CheckCategorySlugPort checkCategorySlugPort,
+                                                CheckCategoryCanCheckSlugPort checkCategorySlugPort,
                                                 RandomStringGenerator randomStringGenerator) {
         return new CategoryServiceMapper(
                 checkCategorySlugPort,

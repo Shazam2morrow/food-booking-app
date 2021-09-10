@@ -1,11 +1,11 @@
 package food.booking.app.shared;
 
 /**
- * Check object slug contract
+ * Can check object slug contract
  *
  * @author shazam2morrow
  */
-public interface SlugCheckable {
+public interface CanCheckSlug {
 
     /**
      * Check if object with the given slug already exists

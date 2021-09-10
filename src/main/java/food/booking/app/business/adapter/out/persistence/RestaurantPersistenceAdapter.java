@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class RestaurantPersistenceAdapter implements
         CreateRestaurantPort,
-        CheckRestaurantSlugPort,
+        CheckRestaurantCanCheckSlugPort,
         UpdateRestaurantDetailsPort,
         LoadRestaurantDetailsPort,
         LoadRestaurantSlicePort {

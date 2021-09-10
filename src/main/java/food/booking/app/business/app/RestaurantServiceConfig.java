@@ -31,7 +31,7 @@ class RestaurantServiceConfig {
     @Bean
     RestaurantServiceMapper restaurantServiceMapper(FileUrlResolver fileUrlResolver,
                                                     RandomStringGenerator randomStringGenerator,
-                                                    CheckRestaurantSlugPort checkRestaurantSlugPort) {
+                                                    CheckRestaurantCanCheckSlugPort checkRestaurantSlugPort) {
         return new RestaurantServiceMapper(checkRestaurantSlugPort, fileUrlResolver, randomStringGenerator);
     }
 

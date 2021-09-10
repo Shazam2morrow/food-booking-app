@@ -1,13 +1,13 @@
 package food.booking.app.business.app.port.out.category;
 
-import food.booking.app.shared.SlugCheckable;
+import food.booking.app.shared.CanCheckSlug;
 
 /**
  * Check category port
  *
  * @author shazam2morrow
  */
-public interface CheckCategorySlugPort extends SlugCheckable {
+public interface CheckCategoryCanCheckSlugPort extends CanCheckSlug {
 
     /**
      * Check if category with the given slug exists
