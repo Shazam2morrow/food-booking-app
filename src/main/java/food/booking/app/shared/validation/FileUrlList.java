@@ -12,8 +12,8 @@ import java.lang.annotation.*;
 @Documented
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = FileUrlValidator.class)
-public @interface FileUrlOrNull {
+@Constraint(validatedBy = FileUrlListValidator.class)
+public @interface FileUrlList {
 
     String message() default "file.url.invalid";
 
@@ -22,3 +22,4 @@ public @interface FileUrlOrNull {
     Class<? extends Payload>[] payload() default {};
 
 }
+

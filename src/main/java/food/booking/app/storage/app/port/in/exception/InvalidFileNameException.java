@@ -1,21 +1,22 @@
 package food.booking.app.storage.app.port.in.exception;
 
-import lombok.Getter;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.Set;
 
 /**
  * Thrown when file name contains invalid characters
  *
  * @author shazam2morrow
  */
-public class InvalidFileNameException extends RuntimeException {
+public class InvalidFileNameException extends ConstraintViolationException {
 
-    @Getter
-    private final String fileName;
+    public InvalidFileNameException(String message, Set<? extends ConstraintViolation<?>> constraintViolations) {
+        super(message, constraintViolations);
+    }
 
-    public static final String CODE = "file.name.invalid";
-
-    public InvalidFileNameException(String fileName) {
-        this.fileName = fileName;
+    public InvalidFileNameException(Set<? extends ConstraintViolation<?>> constraintViolations) {
+        super(constraintViolations);
     }
 
 }

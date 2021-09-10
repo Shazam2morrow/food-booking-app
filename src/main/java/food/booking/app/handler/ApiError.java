@@ -56,4 +56,8 @@ class ApiError {
         this(message, path, status, code, method, null, null);
     }
 
+    ApiError(String message, String path, HttpStatus status, Integer code, String method, String details) {
+        this(message, path, status, code, method, details, null);
+    }
+
 }

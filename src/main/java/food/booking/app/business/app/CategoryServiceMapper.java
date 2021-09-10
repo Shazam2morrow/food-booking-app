@@ -8,7 +8,7 @@ import food.booking.app.business.domain.Category;
 import food.booking.app.shared.SlugCheckable;
 import food.booking.app.shared.SlugGenerator;
 import food.booking.app.storage.app.FileUrlResolver;
-import food.booking.app.storage.app.port.in.exception.FileUrlNotFoundException;
+import food.booking.app.storage.app.port.in.exception.FileNotFoundException;
 import org.apache.commons.text.RandomStringGenerator;
 
 /**
@@ -33,7 +33,7 @@ class CategoryServiceMapper extends SlugGenerator {
      *
      * @param command create category command
      * @return create category
-     * @throws FileUrlNotFoundException if icon was not found
+     * @throws FileNotFoundException if icon was not found
      */
     CreateCategory mapToCreateCategory(CreateCategoryCommand command) {
         return new CreateCategory(
@@ -48,7 +48,7 @@ class CategoryServiceMapper extends SlugGenerator {
      *
      * @param command update category details command
      * @return update category details
-     * @throws FileUrlNotFoundException if icon was not found
+     * @throws FileNotFoundException if icon was not found
      */
     UpdateCategoryDetails mapToUpdateCategoryDetails(UpdateCategoryDetailsCommand command) {
         return new UpdateCategoryDetails(

@@ -1,6 +1,6 @@
 package food.booking.app.business.app.port.in.category;
 
-import food.booking.app.shared.validation.FileUrlOrNull;
+import food.booking.app.shared.validation.FileUrl;
 import food.booking.app.shared.validation.SortOrder;
 import food.booking.app.shared.validation.Title;
 import lombok.Getter;
@@ -17,7 +17,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class CreateCategoryCommand {
 
-    @FileUrlOrNull
+    @FileUrl
     private final URI iconUrl;
 
     @Title

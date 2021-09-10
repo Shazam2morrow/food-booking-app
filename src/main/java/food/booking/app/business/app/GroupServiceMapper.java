@@ -8,7 +8,7 @@ import food.booking.app.business.app.port.out.group.UpdateGroupDetails;
 import food.booking.app.business.domain.Group;
 import food.booking.app.shared.size.SlugSize;
 import food.booking.app.storage.app.FileUrlResolver;
-import food.booking.app.storage.app.port.in.exception.FileUrlNotFoundException;
+import food.booking.app.storage.app.port.in.exception.FileNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.text.RandomStringGenerator;
 
@@ -31,7 +31,7 @@ class GroupServiceMapper {
      *
      * @param command create group command
      * @return create group
-     * @throws FileUrlNotFoundException if icon was not found
+     * @throws FileNotFoundException if icon was not found
      */
     CreateGroup mapToCreateGroup(CreateGroupCommand command) {
         return new CreateGroup(
@@ -47,13 +47,14 @@ class GroupServiceMapper {
      *
      * @param command update group details command
      * @return update group details
+     * @throws FileNotFoundException if icon was not found
      */
     UpdateGroupDetails mapToUpdateGroupDetails(UpdateGroupDetailsCommand command) {
         return new UpdateGroupDetails(
                 command.getSlug(),
                 command.getTitle(),
                 command.getSortOrder(),
-                command.getIconUrl(),
+                fileUrlResolver.resolve(command.getIconUrl()),
                 command.isActive());
     }
 

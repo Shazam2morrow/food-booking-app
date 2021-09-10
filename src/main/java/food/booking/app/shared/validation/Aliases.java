@@ -1,5 +1,7 @@
 package food.booking.app.shared.validation;
 
+import food.booking.app.shared.size.AliasesSize;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.Size;
@@ -14,7 +16,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Constraint(validatedBy = {})
 @Retention(RetentionPolicy.RUNTIME)
-@Size(min = 3, max = 10, message = "aliases.invalid.size")
+@Size(min = AliasesSize.MIN, max = AliasesSize.MAX, message = "aliases.invalid.size")
 public @interface Aliases {
 
     String message() default "";

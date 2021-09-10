@@ -39,7 +39,7 @@ public class CreateItemCommand {
     @CookingTime
     private final Short cookingTime;
 
-    @FileUrlOrNull
+    @FileUrl
     private final URI bannerUrl;
 
     @Override

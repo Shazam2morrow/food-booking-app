@@ -27,7 +27,7 @@ public class UpdateGroupDetailsCommand {
     @SortOrder
     private final Short sortOrder;
 
-    @FileUrlOrNull
+    @FileUrl
     private final URI iconUrl;
 
     public Boolean isActive() {

@@ -23,12 +23,12 @@ record Restaurant(
         @Address String address,
         @Type RestaurantType type,
         @Schedule List<@Valid DailySchedule> schedule,
-        @FileUrlOrNull URI bannerUrl,
-        @FileUrlListOrNull List<URI> media,
+        @FileUrl URI bannerUrl,
+        @FileUrlList List<URI> media,
         @ShortTitle String shortTitle,
         @Valid Location location,
         @Description String description,
         @Aliases List<String> aliases,
-        @AvgReceipt BigDecimal averageReceipt,
+        @AverageReceipt BigDecimal averageReceipt,
         @Nullable List<Category> categories) {
 }

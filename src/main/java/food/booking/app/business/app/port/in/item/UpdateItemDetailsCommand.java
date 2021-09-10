@@ -22,7 +22,7 @@ public class UpdateItemDetailsCommand {
     @Title
     private final String title;
 
-    @FileUrlOrNull
+    @FileUrl
     private final URI bannerUrl;
 
     @Description

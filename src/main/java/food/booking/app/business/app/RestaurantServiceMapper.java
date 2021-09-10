@@ -8,7 +8,7 @@ import food.booking.app.business.domain.Restaurant;
 import food.booking.app.shared.SlugCheckable;
 import food.booking.app.shared.SlugGenerator;
 import food.booking.app.storage.app.FileUrlResolver;
-import food.booking.app.storage.app.port.in.exception.FileUrlNotFoundException;
+import food.booking.app.storage.app.port.in.exception.FileNotFoundException;
 import org.apache.commons.text.RandomStringGenerator;
 
 /**
@@ -32,7 +32,7 @@ class RestaurantServiceMapper extends SlugGenerator {
      *
      * @param command create restaurant command
      * @return create restaurant
-     * @throws FileUrlNotFoundException if file url was not found
+     * @throws FileNotFoundException if file url was not found
      */
     CreateRestaurant mapToCreateRestaurant(CreateRestaurantCommand command) {
         return new CreateRestaurant(
@@ -79,7 +79,7 @@ class RestaurantServiceMapper extends SlugGenerator {
      *
      * @param command update restaurant details command
      * @return update restaurant details
-     * @throws FileUrlNotFoundException if file url was not found
+     * @throws FileNotFoundException if file url was not found
      */
     UpdateRestaurantDetails mapToUpdateRestaurantDetails(UpdateRestaurantDetailsCommand command) {
         return new UpdateRestaurantDetails(

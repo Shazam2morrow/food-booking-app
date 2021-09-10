@@ -12,7 +12,7 @@ import java.net.URI;
 public record UpdateCategoryDetailsCommand(
         @Slug String slug,
         @Title String title,
-        @FileUrlOrNull URI iconUrl,
+        @FileUrl URI iconUrl,
         @Active Boolean active,
         @SortOrder Short sortOrder) {
 

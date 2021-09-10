@@ -19,5 +19,5 @@ record Item(@Title String title,
             @SortOrder Integer sortOrder,
             @CookingTime Short cookingTime,
             @Description String description,
-            @FileUrlOrNull URI bannerUrl) {
+            @FileUrl URI bannerUrl) {
 }

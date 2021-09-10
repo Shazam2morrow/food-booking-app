@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashSet;
 import java.util.Objects;
 
 /**
@@ -83,13 +84,13 @@ class LocalStorageService implements UploadFileUseCase,
     public File upload(UploadFileCommand command) {
         Validate.notNull(command, "command can not be null");
         log.debug("Trying to upload file: {}", command);
-        Resource resource = command.getResource();
-        // get original file name and remove any absolute paths
-        String originalName = FilenameUtils.getName(resource.getFilename());
         try {
+            Resource resource = command.getResource();
+            // get original file name and remove any absolute paths
+            String originalName = FilenameUtils.getName(resource.getFilename());
             // check original name for invalid path sequences
             if (Objects.nonNull(originalName) && originalName.contains("..")) {
-                throw new InvalidFileNameException(originalName);
+                throw new InvalidFileNameException("File name contains illegal characters!", new HashSet<>());
             }
             String slug = command.getSlug();
             // resolve target location on the local file system for the file
@@ -116,7 +117,7 @@ class LocalStorageService implements UploadFileUseCase,
                 return createFilePort.create(createUploadedFile);
             }
         } catch (IOException ex) {
-            throw new StorageException(originalName, ex);
+            throw new StorageException("Failed to upload file!", ex);
         }
     }
 

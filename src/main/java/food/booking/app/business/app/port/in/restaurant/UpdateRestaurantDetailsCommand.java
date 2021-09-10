@@ -34,10 +34,10 @@ public class UpdateRestaurantDetailsCommand {
     @Active
     private final Boolean active;
 
-    @FileUrlOrNull
+    @FileUrl
     private final URI bannerUrl;
 
-    @FileUrlOrNull
+    @FileUrl
     private final List<URI> media;
 
     @ShortTitle
@@ -52,7 +52,7 @@ public class UpdateRestaurantDetailsCommand {
     @Aliases
     private final List<String> aliases;
 
-    @AvgReceipt
+    @AverageReceipt
     private final BigDecimal averageReceipt;
 
     @Nullable

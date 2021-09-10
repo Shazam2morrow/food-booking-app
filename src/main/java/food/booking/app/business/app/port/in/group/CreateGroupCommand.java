@@ -1,7 +1,7 @@
 package food.booking.app.business.app.port.in.group;
 
 import food.booking.app.business.domain.Menu;
-import food.booking.app.shared.validation.FileUrlOrNull;
+import food.booking.app.shared.validation.FileUrl;
 import food.booking.app.shared.validation.SortOrder;
 import food.booking.app.shared.validation.Title;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public class CreateGroupCommand {
     @Title
     private final String title;
 
-    @FileUrlOrNull
+    @FileUrl
     private final URI iconUrl;
 
     @NotNull(message = "group.menu.notnull")

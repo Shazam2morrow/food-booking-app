@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = {})
 @Retention(RetentionPolicy.RUNTIME)
 @PositiveOrZero(message = "averagereceipt.notnegative")
-public @interface AvgReceipt {
+public @interface AverageReceipt {
 
     String message() default "";
 

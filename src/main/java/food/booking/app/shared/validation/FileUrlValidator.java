@@ -2,9 +2,9 @@ package food.booking.app.shared.validation;
 
 import lombok.NoArgsConstructor;
 
+import javax.annotation.Nullable;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Objects;
 
@@ -14,18 +14,19 @@ import java.util.Objects;
  * @author shazam2morrow
  */
 @NoArgsConstructor
-public class FileUrlValidator implements ConstraintValidator<FileUrlOrNull, URI> {
+public class FileUrlValidator extends FileUrlBaseValidator
+        implements ConstraintValidator<FileUrl, URI> {
 
+    /**
+     * Is file url valid?
+     *
+     * @param fileUrl optional file url
+     * @param context context
+     * @return true if file url is valid otherwise false
+     */
     @Override
-    public boolean isValid(URI fileUrl, ConstraintValidatorContext context) {
-        if (Objects.isNull(fileUrl)) {
-            return true;
-        }
-        try {
-            return fileUrl.toURL().getProtocol().startsWith("http");
-        } catch (MalformedURLException | IllegalArgumentException ex) {
-            return false;
-        }
+    public boolean isValid(@Nullable URI fileUrl, ConstraintValidatorContext context) {
+        return Objects.isNull(fileUrl) || isValid(fileUrl);
     }
 
 }

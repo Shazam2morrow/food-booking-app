@@ -1,21 +1,23 @@
 package food.booking.app.storage.app.port.in.exception;
 
-import lombok.Getter;
+import food.booking.app.shared.exception.NoSuchElementException;
 
 /**
  * Thrown when file was not found
  *
  * @author shazam2morrow
  */
-public class FileNotFoundException extends RuntimeException {
+public class FileNotFoundException extends NoSuchElementException {
 
-    @Getter
-    private final String fileSlug;
+    private static final String CODE = "file.notfound";
 
-    public static final String CODE = "file.notfound";
+    public FileNotFoundException(Object id) {
+        super(id);
+    }
 
-    public FileNotFoundException(String fileSlug) {
-        this.fileSlug = fileSlug;
+    @Override
+    public String getMessageCode() {
+        return CODE;
     }
 
 }

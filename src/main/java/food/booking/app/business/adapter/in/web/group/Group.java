@@ -1,7 +1,7 @@
 package food.booking.app.business.adapter.in.web.group;
 
 import food.booking.app.business.domain.Menu;
-import food.booking.app.shared.validation.FileUrlOrNull;
+import food.booking.app.shared.validation.FileUrl;
 import food.booking.app.shared.validation.SortOrder;
 import food.booking.app.shared.validation.Title;
 
@@ -14,7 +14,7 @@ import java.net.URI;
  * @author shazam2morrow
  */
 record Group(@Title String title,
-             @FileUrlOrNull URI iconUrl,
+             @FileUrl URI iconUrl,
              @SortOrder Short sortOrder,
              @NotNull(message = "group.menu.notnull") Menu menu) {
 }

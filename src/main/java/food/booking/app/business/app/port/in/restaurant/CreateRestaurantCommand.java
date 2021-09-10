@@ -35,10 +35,10 @@ public class CreateRestaurantCommand {
     @Schedule
     private final List<@Valid DailySchedule> schedule;
 
-    @FileUrlOrNull
+    @FileUrl
     private final URI bannerUrl;
 
-    @FileUrlListOrNull
+    @FileUrlList
     private final List<URI> media;
 
     @ShortTitle
@@ -53,7 +53,7 @@ public class CreateRestaurantCommand {
     @Aliases
     private final List<String> aliases;
 
-    @AvgReceipt
+    @AverageReceipt
     private final BigDecimal averageReceipt;
 
     @Nullable
