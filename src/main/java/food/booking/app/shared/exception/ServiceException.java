@@ -5,7 +5,7 @@ package food.booking.app.shared.exception;
  *
  * @author shazam2morrow
  */
-public abstract class ServiceException extends RuntimeException implements HasMessageCode {
+public abstract class ServiceException extends LocalizedException {
 
     public ServiceException(String message) {
         super(message);

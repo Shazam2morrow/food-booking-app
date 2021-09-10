@@ -7,17 +7,12 @@ import lombok.Getter;
  *
  * @author shazam2morrow
  */
-public abstract class NoSuchElementException extends RuntimeException implements HasMessageCode {
+public abstract class NoSuchElementException extends LocalizedException {
 
     @Getter
     private final Object id;
 
     public NoSuchElementException(Object id) {
-        this.id = id;
-    }
-
-    public NoSuchElementException(Object id, String message) {
-        super(message);
         this.id = id;
     }
 
