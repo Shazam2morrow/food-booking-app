@@ -1,11 +1,11 @@
 package food.booking.app.shared;
 
 /**
- * Slugable contract
+ * Has slug contract
  *
  * @author shazam2morrow
  */
-public interface Slugable<T> {
+public interface HasSlug<T> {
 
     /**
      * Get object slug

@@ -1,7 +1,7 @@
 package food.booking.app.business.adapter.out.persistence;
 
 import food.booking.app.business.app.port.in.group.exception.GroupNotFoundException;
-import food.booking.app.shared.Slugable;
+import food.booking.app.shared.HasSlug;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -17,12 +17,12 @@ class GroupPersistenceResolver {
     /**
      * Resolve group jpa entity
      *
-     * @param slugable slugable
+     * @param hasSlug slugable
      * @return resolved group jpa entity
      * @throws GroupNotFoundException if group was not found
      */
-    GroupJpaEntity resolve(Slugable<String> slugable) {
-        return resolve(slugable.getSlug());
+    GroupJpaEntity resolve(HasSlug<String> hasSlug) {
+        return resolve(hasSlug.getSlug());
     }
 
     /**

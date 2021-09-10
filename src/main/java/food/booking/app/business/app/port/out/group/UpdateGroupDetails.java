@@ -1,6 +1,6 @@
 package food.booking.app.business.app.port.out.group;
 
-import food.booking.app.shared.Slugable;
+import food.booking.app.shared.HasSlug;
 
 import java.net.URI;
 
@@ -14,7 +14,7 @@ public record UpdateGroupDetails(
         String title,
         Short sortOrder,
         URI iconUrl,
-        Boolean active) implements Slugable<String> {
+        Boolean active) implements HasSlug<String> {
 
     public String getSlug() {
         return slug;

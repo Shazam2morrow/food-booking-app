@@ -1,6 +1,6 @@
 package food.booking.app.business.app.port.out.item;
 
-import food.booking.app.shared.Slugable;
+import food.booking.app.shared.HasSlug;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -18,7 +18,7 @@ public record UpdateItemDetails(String slug,
                                 Integer calories,
                                 Integer sortOrder,
                                 Short cookingTime,
-                                String description) implements Slugable<String> {
+                                String description) implements HasSlug<String> {
 
     public String getSlug() {
         return slug;

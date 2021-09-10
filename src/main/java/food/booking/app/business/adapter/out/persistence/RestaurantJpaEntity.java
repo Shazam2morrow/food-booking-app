@@ -1,7 +1,7 @@
 package food.booking.app.business.adapter.out.persistence;
 
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
-import food.booking.app.shared.Slugable;
+import food.booking.app.shared.HasSlug;
 import food.booking.app.shared.persistence.UriPersistenceConverter;
 import food.booking.app.shared.size.DescriptionSize;
 import food.booking.app.shared.size.ShortTitleSize;
@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 @Table(name = "restaurant", uniqueConstraints = {
         @UniqueConstraint(name = "restaurant_slug_uk", columnNames = {"slug"})
 })
-class RestaurantJpaEntity implements Slugable<String> {
+class RestaurantJpaEntity implements HasSlug<String> {
 
     /**
      * Primary identifier

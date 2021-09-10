@@ -1,7 +1,7 @@
 package food.booking.app.business.adapter.out.persistence;
 
 import food.booking.app.business.app.port.in.restaurant.exception.RestaurantNotFoundException;
-import food.booking.app.shared.Slugable;
+import food.booking.app.shared.HasSlug;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -17,12 +17,12 @@ class RestaurantPersistenceResolver {
     /**
      * Resolve restaurant jpa entity
      *
-     * @param slugable slugable
+     * @param hasSlug slugable
      * @return resolved restaurant jpa entity
      * @throws RestaurantNotFoundException restaurant was not found
      */
-    RestaurantJpaEntity resolve(Slugable<String> slugable) {
-        return resolve(slugable.getSlug());
+    RestaurantJpaEntity resolve(HasSlug<String> hasSlug) {
+        return resolve(hasSlug.getSlug());
     }
 
     /**

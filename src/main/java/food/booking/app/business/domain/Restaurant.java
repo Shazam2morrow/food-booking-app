@@ -2,7 +2,7 @@ package food.booking.app.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import food.booking.app.business.adapter.out.persistence.RestaurantType;
-import food.booking.app.shared.Slugable;
+import food.booking.app.shared.HasSlug;
 import food.booking.app.shared.domain.DailySchedule;
 import food.booking.app.shared.domain.Location;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Restaurant implements Slugable<String> {
+public class Restaurant implements HasSlug<String> {
 
     private String slug;
     private String title;

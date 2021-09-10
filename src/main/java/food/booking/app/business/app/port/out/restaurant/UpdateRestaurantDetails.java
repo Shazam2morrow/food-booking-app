@@ -1,7 +1,7 @@
 package food.booking.app.business.app.port.out.restaurant;
 
 import food.booking.app.business.domain.Category;
-import food.booking.app.shared.Slugable;
+import food.booking.app.shared.HasSlug;
 import food.booking.app.shared.domain.DailySchedule;
 import food.booking.app.shared.domain.Location;
 
@@ -27,7 +27,7 @@ public record UpdateRestaurantDetails(String slug,
                                       List<String> aliases,
                                       BigDecimal averageReceipt,
                                       List<Category> categories,
-                                      List<DailySchedule> schedule) implements Slugable<String> {
+                                      List<DailySchedule> schedule) implements HasSlug<String> {
 
     public boolean hasCategories() {
         return Objects.nonNull(categories) && !categories.isEmpty();

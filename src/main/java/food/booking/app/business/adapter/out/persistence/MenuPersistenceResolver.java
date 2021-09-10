@@ -1,7 +1,7 @@
 package food.booking.app.business.adapter.out.persistence;
 
 import food.booking.app.business.app.port.in.menu.exception.MenuNotFoundException;
-import food.booking.app.shared.Slugable;
+import food.booking.app.shared.HasSlug;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -17,12 +17,12 @@ class MenuPersistenceResolver {
     /**
      * Resolve menu jpa entity
      *
-     * @param slugable slugable
+     * @param hasSlug slugable
      * @return resolved menu jpa entity
      * @throws MenuNotFoundException if menu was not found
      */
-    MenuJpaEntity resolve(Slugable<String> slugable) {
-        return resolve(slugable.getSlug());
+    MenuJpaEntity resolve(HasSlug<String> hasSlug) {
+        return resolve(hasSlug.getSlug());
     }
 
     /**

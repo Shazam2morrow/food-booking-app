@@ -1,6 +1,6 @@
 package food.booking.app.business.app.port.out.category;
 
-import food.booking.app.shared.Slugable;
+import food.booking.app.shared.HasSlug;
 
 import java.net.URI;
 
@@ -14,7 +14,7 @@ public record UpdateCategoryDetails(
         String title,
         Short sortOrder,
         Boolean active,
-        URI iconUrl) implements Slugable<String> {
+        URI iconUrl) implements HasSlug<String> {
 
     @Override
     public String getSlug() {
