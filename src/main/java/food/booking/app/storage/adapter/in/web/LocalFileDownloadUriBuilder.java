@@ -1,6 +1,6 @@
 package food.booking.app.storage.adapter.in.web;
 
-import food.booking.app.shared.UriBuilderUtil;
+import food.booking.app.shared.util.UriBuilderUtil;
 import food.booking.app.storage.app.port.out.FileDownloadUriBuilderPort;
 import org.apache.commons.lang3.Validate;
 

@@ -1,4 +1,4 @@
-package food.booking.app.shared;
+package food.booking.app.shared.util;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;

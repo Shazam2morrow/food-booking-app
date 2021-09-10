@@ -1,7 +1,7 @@
 package food.booking.app.business.adapter.in.web.item;
 
 import food.booking.app.business.domain.Item;
-import food.booking.app.shared.UriBuilderUtil;
+import food.booking.app.shared.util.UriBuilderUtil;
 import food.booking.app.shared.web.model.SliceMetadata;
 import food.booking.app.shared.web.model.SlicedModel;
 import org.springframework.data.domain.Pageable;
