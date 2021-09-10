@@ -49,10 +49,10 @@ public abstract class PatchApplier<I, O> {
         JsonNode jsonNode = objectMapper.convertValue(object, JsonNode.class);
         O result = objectMapper.treeToValue(patch.apply(jsonNode), getOutputType());
         Set<ConstraintViolation<O>> violations = validator.validate(result);
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
+        if (violations.isEmpty()) {
+            return result;
         }
-        return result;
+        throw new ConstraintViolationException(violations);
     }
 
 }
