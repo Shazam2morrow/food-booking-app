@@ -2,6 +2,7 @@ package food.booking.app.shared.domain;
 
 import food.booking.app.business.adapter.out.persistence.WeekDay;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
  * @author shazam2morrow
  */
 @Getter
+@RequiredArgsConstructor
 public class DailySchedule {
 
     /**
@@ -39,12 +41,5 @@ public class DailySchedule {
     @Valid
     @NotNull(message = "endat.notnull")
     private final Time endAt;
-
-    public DailySchedule(WeekDay startWeekDay, Time startAt, WeekDay endWeekDay, Time endAt) {
-        this.startWeekDay = startWeekDay;
-        this.startAt = startAt;
-        this.endWeekDay = endWeekDay;
-        this.endAt = endAt;
-    }
 
 }

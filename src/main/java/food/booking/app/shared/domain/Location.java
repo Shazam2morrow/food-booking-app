@@ -1,10 +1,9 @@
 package food.booking.app.shared.domain;
 
+import food.booking.app.shared.validation.Latitude;
+import food.booking.app.shared.validation.Longitude;
 import lombok.Getter;
-
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Location
@@ -12,27 +11,19 @@ import javax.validation.constraints.NotNull;
  * @author shazam2morrow
  */
 @Getter
+@RequiredArgsConstructor
 public class Location {
 
     /**
      * Longitude
      */
-    @NotNull(message = "longitude.notnull")
-    @Min(value = -180, message = "longitude.invalid.min")
-    @Max(value = 80, message = "longitude.invalid.max")
+    @Longitude
     private final Double longitude;
 
     /**
      * Latitude
      */
-    @NotNull(message = "latitude.notnull")
-    @Min(value = -90, message = "latitude.invalid.min")
-    @Max(value = 90, message = "latitude.invalid.max")
+    @Latitude
     private final Double latitude;
-
-    public Location(Double longitude, Double latitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
 
 }
