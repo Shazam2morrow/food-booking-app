@@ -1,7 +1,7 @@
 package food.booking.app.storage.app.port.in.exception;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -11,27 +11,27 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Thrown when file name contains invalid characters
+ * Thrown when file has invalid type
  *
  * @author shazam2morrow
  */
-public class InvalidFileNameException extends ConstraintViolationException {
+public class InvalidFileTypeException extends ConstraintViolationException {
 
-    private final static String CODE = "file.name.invalid";
+    private final static String CODE = "file.type.invalid";
 
-    public InvalidFileNameException(String message, Set<? extends ConstraintViolation<?>> constraintViolations) {
+    public InvalidFileTypeException(String message, Set<? extends ConstraintViolation<?>> constraintViolations) {
         super(message, constraintViolations);
     }
 
     /**
-     * Invalid file name constraint violation
+     * Invalid file type constraint violation
      *
      * @author shazam2morrow
      */
     @RequiredArgsConstructor
-    public static class InvalidFileNameConstraintViolation implements ConstraintViolation<Resource> {
+    public static class InvalidFileTypeConstraintViolation implements ConstraintViolation<MultipartFile> {
 
-        private final Resource resource;
+        private final MultipartFile file;
 
         @Override
         public String getMessage() {
@@ -44,13 +44,13 @@ public class InvalidFileNameException extends ConstraintViolationException {
         }
 
         @Override
-        public Resource getRootBean() {
-            return resource;
+        public MultipartFile getRootBean() {
+            return file;
         }
 
         @Override
-        public Class<Resource> getRootBeanClass() {
-            return Resource.class;
+        public Class<MultipartFile> getRootBeanClass() {
+            return MultipartFile.class;
         }
 
         @Override
@@ -84,7 +84,7 @@ public class InvalidFileNameException extends ConstraintViolationException {
 
         @Override
         public Object getInvalidValue() {
-            return resource.getFilename();
+            return file.getOriginalFilename();
         }
 
         @Override

@@ -4,6 +4,7 @@ import food.booking.app.shared.exception.NoSuchElementException;
 import food.booking.app.shared.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
@@ -38,6 +41,9 @@ class GlobalExceptionHandler {
     private final static String UNKNOW_ERROR_CODE = "server.fail";
 
     private final static String UNKNOW_ERROR_DETAILS_CODE = "server.fail.details";
+
+    @Value("${spring.servlet.multipart.max-file-size:-1}")
+    private String maxUploadSize;
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -76,6 +82,40 @@ class GlobalExceptionHandler {
         return ResponseEntity.badRequest().build();
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    protected ResponseEntity<ApiError> handleMissingServletRequestPartException(
+            MissingServletRequestPartException ex,
+            HttpServletRequest request) {
+        String requestPartName = ex.getRequestPartName();
+        Locale locale = request.getLocale();
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        var apiError = new ApiError(
+                messageSource.getMessage("request.part.notpresent", new Object[]{requestPartName}, locale),
+                request.getRequestURL().toString(),
+                status,
+                status.value(),
+                request.getMethod());
+        return new ResponseEntity<>(apiError, status);
+    }
+
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    protected ResponseEntity<ApiError> handleMaxUploadSizeExceededException(
+            MaxUploadSizeExceededException ex,
+            HttpServletRequest request) {
+        Locale locale = request.getLocale();
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        var apiError = new ApiError(
+                messageSource.getMessage("file.size.exceeded", new Object[]{maxUploadSize}, locale),
+                request.getRequestURL().toString(),
+                status,
+                status.value(),
+                request.getMethod(),
+                messageSource.getMessage("file.size.exceeded.details", new Object[]{}, locale));
+        return new ResponseEntity<>(apiError, status);
+    }
+
     @ExceptionHandler(ServiceException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected ResponseEntity<ApiError> handleServiceException(ServiceException ex, HttpServletRequest request) {
@@ -105,7 +145,7 @@ class GlobalExceptionHandler {
                 status.value(),
                 request.getMethod(),
                 messageSource.getMessage(ApiValidationError.DETAILS, new Object[]{}, locale),
-                buildErrors(ex));
+                buildErrors(ex, locale));
         return new ResponseEntity<>(error, status);
     }
 
@@ -126,13 +166,13 @@ class GlobalExceptionHandler {
         return new ResponseEntity<>(error, status);
     }
 
-    private List<ApiSubError> buildErrors(ConstraintViolationException ex) {
+    private List<ApiSubError> buildErrors(ConstraintViolationException ex, Locale locale) {
         return ex.getConstraintViolations()
                 .stream()
                 .map(violation -> new ApiValidationError(
                         violation.getPropertyPath().toString(),
-                        violation.getMessage(),
-                        violation.getRootBean().toString(),
+                        messageSource.getMessage(violation.getMessage(), new Object[]{}, locale),
+                        violation.getRootBeanClass().getSimpleName().toLowerCase(),
                         violation.getInvalidValue()))
                 .sorted(Comparator.comparing(ApiValidationError::getField))
                 .collect(Collectors.toList());

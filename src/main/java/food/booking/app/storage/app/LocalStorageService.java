@@ -4,6 +4,7 @@ import food.booking.app.shared.size.SlugSize;
 import food.booking.app.storage.adapter.out.persistence.StorageType;
 import food.booking.app.storage.app.port.in.*;
 import food.booking.app.storage.app.port.in.exception.InvalidFileNameException;
+import food.booking.app.storage.app.port.in.exception.InvalidFileNameException.InvalidFileNameConstraintViolation;
 import food.booking.app.storage.app.port.in.exception.StorageException;
 import food.booking.app.storage.app.port.out.*;
 import food.booking.app.storage.domain.File;
@@ -27,7 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.List;
 
 /**
  * Local storage service
@@ -89,8 +90,10 @@ class LocalStorageService implements UploadFileUseCase,
             // get original file name and remove any absolute paths
             String originalName = FilenameUtils.getName(resource.getFilename());
             // check original name for invalid path sequences
-            if (Objects.nonNull(originalName) && originalName.contains("..")) {
-                throw new InvalidFileNameException("File name contains illegal characters!", new HashSet<>());
+            if (originalName.contains("..")) {
+                throw new InvalidFileNameException(
+                        "File name contains illegal characters!",
+                        new HashSet<>(List.of(new InvalidFileNameConstraintViolation(resource))));
             }
             String slug = command.getSlug();
             // resolve target location on the local file system for the file
